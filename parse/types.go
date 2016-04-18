@@ -45,6 +45,7 @@ const (
 	Bytes
 )
 
+// https://developers.google.com/protocol-buffers/docs/proto3#scalar
 var (
 	ProtoTypes = [...]string{
 		"double",
