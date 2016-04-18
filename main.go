@@ -18,9 +18,10 @@
 //	protodoc [flags]
 //
 //	Flags:
-//	-o, --languags value   language options in field descriptions (default [Go,C++,Java,Python])
-//	-p, --target-path string       file path to save the documentation
-//	-t, --title string             title of documentation
+//	-h, --help                 help for protodoc
+//	-o, --languages value      language options in field descriptions (default [Go,C++,Java,Python])
+//	-p, --target-path string   file path to save the documentation
+//	-t, --title string         title of documentation
 //
 package main
 

@@ -5,6 +5,12 @@
 
 protodoc generates Protocol Buffer documentation.
 
+```
+go get -v -u github.com/coreos/protodoc
+
+prodoc ./parse/testdata --language-options="Go,C++,Java,Python" --title="testdata" --target-path="./sample.md"
+```
+
 Note that parser only understands the minimum syntax
 of Protocol Buffer (just enough to generate documentation).
 
