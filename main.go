@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// prodoc generates Protocol Buffer documentation.
+// protodoc generates Protocol Buffer documentation.
 //
 //	Usage:
-//	prodoc [flags]
+//	protodoc [flags]
 //
 //	Flags:
-//	-o, --language-options value   language options in field descriptions (default [Go,C++,Java,Python])
+//	-o, --languags value   language options in field descriptions (default [Go,C++,Java,Python])
 //	-p, --target-path string       file path to save the documentation
 //	-t, --title string             title of documentation
 //
@@ -35,8 +35,8 @@ import (
 
 var (
 	rootCommand = &cobra.Command{
-		Use:   "prodoc",
-		Short: "prodoc generates Protocol Buffer documentation.",
+		Use:   "protodoc",
+		Short: "protodoc generates Protocol Buffer documentation.",
 		RunE:  CommandFunc,
 	}
 
@@ -53,7 +53,7 @@ func init() {
 func init() {
 	rootCommand.PersistentFlags().StringVarP(&title, "title", "t", "", "title of documentation")
 	rootCommand.PersistentFlags().StringVarP(&targetPath, "target-path", "p", "", "file path to save the documentation")
-	rootCommand.PersistentFlags().StringSliceVarP(&languageOptions, "language-options", "o", []string{"Go", "C++", "Java", "Python"}, "language options in field descriptions")
+	rootCommand.PersistentFlags().StringSliceVarP(&languageOptions, "languages", "o", []string{"Go", "C++", "Java", "Python"}, "language options in field descriptions")
 }
 
 func CommandFunc(cmd *cobra.Command, args []string) error {
