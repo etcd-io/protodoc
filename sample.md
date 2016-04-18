@@ -5,20 +5,20 @@
 
 | Method | Request Type | Response Type | Description |
 | ------ | ------------ | ------------- | ----------- |
-| AuthEnable | `AuthEnableRequest` | `AuthEnableResponse` | AuthEnable enables authentication. |
-| AuthDisable | `AuthDisableRequest` | `AuthDisableResponse` | AuthDisable disables authentication. |
-| Authenticate | `AuthenticateRequest` | `AuthenticateResponse` | Authenticate processes authenticate request. |
-| UserAdd | `AuthUserAddRequest` | `AuthUserAddResponse` | UserAdd adds a new user. |
-| UserGet | `AuthUserGetRequest` | `AuthUserGetResponse` | UserGet gets a detailed information of a user or lists entire users. |
-| UserDelete | `AuthUserDeleteRequest` | `AuthUserDeleteResponse` | UserDelete deletes a specified user. |
-| UserChangePassword | `AuthUserChangePasswordRequest` | `AuthUserChangePasswordResponse` | UserChangePassword changes password of a specified user. |
-| UserGrant | `AuthUserGrantRequest` | `AuthUserGrantResponse` | UserGrant grants a role to a specified user. |
-| UserRevoke | `AuthUserRevokeRequest` | `AuthUserRevokeResponse` | UserRevoke revokes a role of specified user. |
-| RoleAdd | `AuthRoleAddRequest` | `AuthRoleAddResponse` | RoleAdd adds a new role. |
-| RoleGet | `AuthRoleGetRequest` | `AuthRoleGetResponse` | RoleGet gets a detailed information of a role or lists entire roles. |
-| RoleDelete | `AuthRoleDeleteRequest` | `AuthRoleDeleteResponse` | RoleDelete deletes a specified role. |
-| RoleGrant | `AuthRoleGrantRequest` | `AuthRoleGrantResponse` | RoleGrant grants a permission of a specified key or range to a specified role. |
-| RoleRevoke | `AuthRoleRevokeRequest` | `AuthRoleRevokeResponse` | RoleRevoke revokes a key or range permission of a specified role. |
+| AuthEnable | AuthEnableRequest | AuthEnableResponse | AuthEnable enables authentication. |
+| AuthDisable | AuthDisableRequest | AuthDisableResponse | AuthDisable disables authentication. |
+| Authenticate | AuthenticateRequest | AuthenticateResponse | Authenticate processes authenticate request. |
+| UserAdd | AuthUserAddRequest | AuthUserAddResponse | UserAdd adds a new user. |
+| UserGet | AuthUserGetRequest | AuthUserGetResponse | UserGet gets a detailed information of a user or lists entire users. |
+| UserDelete | AuthUserDeleteRequest | AuthUserDeleteResponse | UserDelete deletes a specified user. |
+| UserChangePassword | AuthUserChangePasswordRequest | AuthUserChangePasswordResponse | UserChangePassword changes password of a specified user. |
+| UserGrant | AuthUserGrantRequest | AuthUserGrantResponse | UserGrant grants a role to a specified user. |
+| UserRevoke | AuthUserRevokeRequest | AuthUserRevokeResponse | UserRevoke revokes a role of specified user. |
+| RoleAdd | AuthRoleAddRequest | AuthRoleAddResponse | RoleAdd adds a new role. |
+| RoleGet | AuthRoleGetRequest | AuthRoleGetResponse | RoleGet gets a detailed information of a role or lists entire roles. |
+| RoleDelete | AuthRoleDeleteRequest | AuthRoleDeleteResponse | RoleDelete deletes a specified role. |
+| RoleGrant | AuthRoleGrantRequest | AuthRoleGrantResponse | RoleGrant grants a permission of a specified key or range to a specified role. |
+| RoleRevoke | AuthRoleRevokeRequest | AuthRoleRevokeResponse | RoleRevoke revokes a key or range permission of a specified role. |
 
 
 <br>
@@ -27,10 +27,10 @@
 
 | Method | Request Type | Response Type | Description |
 | ------ | ------------ | ------------- | ----------- |
-| MemberAdd | `MemberAddRequest` | `MemberAddResponse` | MemberAdd adds a member into the cluster. |
-| MemberRemove | `MemberRemoveRequest` | `MemberRemoveResponse` | MemberRemove removes an existing member from the cluster. |
-| MemberUpdate | `MemberUpdateRequest` | `MemberUpdateResponse` | MemberUpdate updates the member configuration. |
-| MemberList | `MemberListRequest` | `MemberListResponse` | MemberList lists all the members in the cluster. |
+| MemberAdd | MemberAddRequest | MemberAddResponse | MemberAdd adds a member into the cluster. |
+| MemberRemove | MemberRemoveRequest | MemberRemoveResponse | MemberRemove removes an existing member from the cluster. |
+| MemberUpdate | MemberUpdateRequest | MemberUpdateResponse | MemberUpdate updates the member configuration. |
+| MemberList | MemberListRequest | MemberListResponse | MemberList lists all the members in the cluster. |
 
 
 <br>
@@ -39,11 +39,11 @@
 
 | Method | Request Type | Response Type | Description |
 | ------ | ------------ | ------------- | ----------- |
-| Range | `RangeRequest` | `RangeResponse` | Range gets the keys in the range from the store. |
-| Put | `PutRequest` | `PutResponse` | Put puts the given key into the store. A put request increases the revision of the store, and generates one event in the event history. |
-| DeleteRange | `DeleteRangeRequest` | `DeleteRangeResponse` | Delete deletes the given range from the store. A delete request increase the revision of the store, and generates one event in the event history. |
-| Txn | `TxnRequest` | `TxnResponse` | Txn processes all the requests in one transaction. A txn request increases the revision of the store, and generates events with the same revision in the event history. It is not allowed to modify the same key several times within one txn. |
-| Compact | `CompactionRequest` | `CompactionResponse` | Compact compacts the event history in etcd. User should compact the event history periodically, or it will grow infinitely. |
+| Range | RangeRequest | RangeResponse | Range gets the keys in the range from the store. |
+| Put | PutRequest | PutResponse | Put puts the given key into the store. A put request increases the revision of the store, and generates one event in the event history. |
+| DeleteRange | DeleteRangeRequest | DeleteRangeResponse | Delete deletes the given range from the store. A delete request increase the revision of the store, and generates one event in the event history. |
+| Txn | TxnRequest | TxnResponse | Txn processes all the requests in one transaction. A txn request increases the revision of the store, and generates events with the same revision in the event history. It is not allowed to modify the same key several times within one txn. |
+| Compact | CompactionRequest | CompactionResponse | Compact compacts the event history in etcd. User should compact the event history periodically, or it will grow infinitely. |
 
 
 <br>
@@ -52,9 +52,9 @@
 
 | Method | Request Type | Response Type | Description |
 | ------ | ------------ | ------------- | ----------- |
-| LeaseGrant | `LeaseGrantRequest` | `LeaseGrantResponse` | LeaseGrant creates a lease. A lease has a TTL. The lease will expire if the server does not receive a keepAlive within TTL from the lease holder. All keys attached to the lease will be expired and deleted if the lease expires. The key expiration generates an event in event history. |
-| LeaseRevoke | `LeaseRevokeRequest` | `LeaseRevokeResponse` | LeaseRevoke revokes a lease. All the key attached to the lease will be expired and deleted. |
-| LeaseKeepAlive | `LeaseKeepAliveRequest` | `LeaseKeepAliveResponse` | KeepAlive keeps the lease alive. |
+| LeaseGrant | LeaseGrantRequest | LeaseGrantResponse | LeaseGrant creates a lease. A lease has a TTL. The lease will expire if the server does not receive a keepAlive within TTL from the lease holder. All keys attached to the lease will be expired and deleted if the lease expires. The key expiration generates an event in event history. |
+| LeaseRevoke | LeaseRevokeRequest | LeaseRevokeResponse | LeaseRevoke revokes a lease. All the key attached to the lease will be expired and deleted. |
+| LeaseKeepAlive | LeaseKeepAliveRequest | LeaseKeepAliveResponse | KeepAlive keeps the lease alive. |
 
 
 <br>
@@ -63,11 +63,11 @@
 
 | Method | Request Type | Response Type | Description |
 | ------ | ------------ | ------------- | ----------- |
-| Alarm | `AlarmRequest` | `AlarmResponse` | Alarm activates, deactivates, and queries alarms regarding cluster health. |
-| Status | `StatusRequest` | `StatusResponse` | Status gets the status of the member. |
-| Defragment | `DefragmentRequest` | `DefragmentResponse` |  |
-| Hash | `HashRequest` | `HashResponse` | Hash returns the hash of the local KV state for consistency checking purpose. This is designed for testing; do not use this in production when there are ongoing transactions. |
-| Snapshot | `SnapshotRequest` | `SnapshotResponse` | Snapshot sends a snapshot of the entire backend |
+| Alarm | AlarmRequest | AlarmResponse | Alarm activates, deactivates, and queries alarms regarding cluster health. |
+| Status | StatusRequest | StatusResponse | Status gets the status of the member. |
+| Defragment | DefragmentRequest | DefragmentResponse |  |
+| Hash | HashRequest | HashResponse | Hash returns the hash of the local KV state for consistency checking purpose. This is designed for testing; do not use this in production when there are ongoing transactions. |
+| Snapshot | SnapshotRequest | SnapshotResponse | Snapshot sends a snapshot of the entire backend |
 
 
 <br>
@@ -76,7 +76,7 @@
 
 | Method | Request Type | Response Type | Description |
 | ------ | ------------ | ------------- | ----------- |
-| Watch | `WatchRequest` | `WatchResponse` | Watch watches the events happening or happened. Both input and output are stream. One watch rpc can watch for multiple keys or prefixs and get a stream of events. The whole events history can be watched unless compacted. |
+| Watch | WatchRequest | WatchResponse | Watch watches the events happening or happened. Both input and output are stream. One watch rpc can watch for multiple keys or prefixs and get a stream of events. The whole events history can be watched unless compacted. |
 
 
 <br>

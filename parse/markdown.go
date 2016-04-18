@@ -41,7 +41,7 @@ func (p *Proto) Markdown(title, fpath string, lopts ...string) error {
 			buf.WriteString(hd1 + "\n")
 			buf.WriteString(hd2 + "\n")
 			for _, elem := range svs.Methods {
-				line := fmt.Sprintf("| %s | `%s` | `%s` | %s |", elem.Name, elem.RequestType, elem.ResponseType, elem.Description)
+				line := fmt.Sprintf("| %s | %s | %s | %s |", elem.Name, elem.RequestType, elem.ResponseType, elem.Description)
 				buf.WriteString(line + "\n")
 			}
 		} else {
