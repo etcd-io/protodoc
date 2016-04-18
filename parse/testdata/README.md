@@ -27,7 +27,7 @@
 | Field | Description | Type | Go | Java | Python | C++ |
 | ----- | ----------- | ---- | --- | ---- | ------ | --- |
 | header |  | ResponseHeader | | | | |
-| alarms |  | []AlarmMember | | | | |
+| alarms |  | slice of AlarmMember | | | | |
 
 
 <br>
@@ -473,8 +473,8 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 | ----- | ----------- | ---- | --- | ---- | ------ | --- |
 | ID |  | uint64 | uint64 | long | int/long | uint64 |
 | name | If the member is not started, name will be an empty string. | string | string | String | str/unicode | string |
-| peerURLs |  | []string | []string | []String | []str/unicode | []string |
-| clientURLs | If the member is not started, client_URLs will be an zero length string array. | []string | []string | []String | []str/unicode | []string |
+| peerURLs |  | slice of string | []string | []String | []str/unicode | []string |
+| clientURLs | If the member is not started, client_URLs will be an zero length string array. | slice of string | []string | []String | []str/unicode | []string |
 
 
 <br>
@@ -483,7 +483,7 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 
 | Field | Description | Type | Go | Java | Python | C++ |
 | ----- | ----------- | ---- | --- | ---- | ------ | --- |
-| peerURLs |  | []string | []string | []String | []str/unicode | []string |
+| peerURLs |  | slice of string | []string | []String | []str/unicode | []string |
 
 
 <br>
@@ -511,7 +511,7 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 | Field | Description | Type | Go | Java | Python | C++ |
 | ----- | ----------- | ---- | --- | ---- | ------ | --- |
 | header |  | ResponseHeader | | | | |
-| members |  | []Member | | | | |
+| members |  | slice of Member | | | | |
 
 
 <br>
@@ -539,7 +539,7 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 | Field | Description | Type | Go | Java | Python | C++ |
 | ----- | ----------- | ---- | --- | ---- | ------ | --- |
 | ID |  | uint64 | uint64 | long | int/long | uint64 |
-| peerURLs |  | []string | []string | []String | []str/unicode | []string |
+| peerURLs |  | slice of string | []string | []String | []str/unicode | []string |
 
 
 <br>
@@ -603,7 +603,7 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 | Field | Description | Type | Go | Java | Python | C++ |
 | ----- | ----------- | ---- | --- | ---- | ------ | --- |
 | header |  | ResponseHeader | | | | |
-| kvs |  | []storagepb.KeyValue | | | | |
+| kvs |  | slice of storagepb.KeyValue | | | | |
 | more | more indicates if there are more keys to return in the requested range. | bool | bool | boolean | boolean | bool |
 
 
@@ -717,9 +717,9 @@ If the comparisons succeed, then the success requests will be processed in order
 
 | Field | Description | Type | Go | Java | Python | C++ |
 | ----- | ----------- | ---- | --- | ---- | ------ | --- |
-| compare |  | []Compare | | | | |
-| success |  | []RequestUnion | | | | |
-| failure |  | []RequestUnion | | | | |
+| compare |  | slice of Compare | | | | |
+| success |  | slice of RequestUnion | | | | |
+| failure |  | slice of RequestUnion | | | | |
 
 
 <br>
@@ -730,7 +730,7 @@ If the comparisons succeed, then the success requests will be processed in order
 | ----- | ----------- | ---- | --- | ---- | ------ | --- |
 | header |  | ResponseHeader | | | | |
 | succeeded |  | bool | bool | boolean | boolean | bool |
-| responses |  | []ResponseUnion | | | | |
+| responses |  | slice of ResponseUnion | | | | |
 
 
 <br>
@@ -776,7 +776,7 @@ If the comparisons succeed, then the success requests will be processed in order
 | created | If the response is for a create watch request, created is set to true. Client should record the watch_id and prepare for receiving events for that watching from the same stream. All events sent to the created watching will attach with the same watch_id. | bool | bool | boolean | boolean | bool |
 | canceled | If the response is for a cancel watch request, cancel is set to true. No further events will be sent to the canceled watching. | bool | bool | boolean | boolean | bool |
 | compact_revision | CompactRevision is set to the minimum index if a watching tries to watch at a compacted index.  This happens when creating a watching at a compacted revision or the watching cannot catch up with the progress of the KV.  Client should treat the watching as canceled and should not try to create any watching with same start_revision again. | int64 | int64 | long | int/long | int64 |
-| events |  | []storagepb.Event | | | | |
+| events |  | slice of storagepb.Event | | | | |
 
 
 <br>

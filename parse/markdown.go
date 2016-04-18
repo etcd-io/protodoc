@@ -52,7 +52,7 @@ func (p *Proto) Markdown(title, fpath string, lopts ...string) error {
 				ts = elem.UserDefinedProtoType
 			}
 			if elem.Repeated {
-				ts = "[]" + ts
+				ts = "(slice of) " + ts
 			}
 			line := fmt.Sprintf("| %s | %s | %s |", elem.Name, elem.Description, ts)
 			for _, lopt := range lopts {
@@ -62,7 +62,7 @@ func (p *Proto) Markdown(title, fpath string, lopts ...string) error {
 				}
 				formatSt := " %s |"
 				if elem.Repeated {
-					formatSt = " []%s |"
+					formatSt = " (slice of) %s |"
 				}
 				switch lopt {
 				case "C++":

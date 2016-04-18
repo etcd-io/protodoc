@@ -1,4 +1,8 @@
 
+# prodoc
+
+[![Build Status](https://img.shields.io/travis/coreos/prodoc.svg?style=flat-square)][cistat] [![Godoc](http://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)][prodoc-godoc]
+
 prodoc generates Protocol Buffer documentation.
 
 Note that parser only understands the minimum syntax
