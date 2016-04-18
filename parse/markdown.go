@@ -34,15 +34,20 @@ func (p *Proto) Markdown(title, fpath string, lopts ...string) error {
 			buf.WriteString(svs.Description)
 			buf.WriteString("\n\n")
 		}
-		hd1 := "| Method | Request Type | Response Type | Description |"
-		hd2 := "| ------ | ------------ | ------------- | ----------- |"
-		buf.WriteString(hd1 + "\n")
-		buf.WriteString(hd2 + "\n")
 
-		for _, elem := range svs.Methods {
-			line := fmt.Sprintf("| %s | `%s` | `%s` | %s |", elem.Name, elem.RequestType, elem.ResponseType, elem.Description)
-			buf.WriteString(line + "\n")
+		if len(svs.Methods) > 0 {
+			hd1 := "| Method | Request Type | Response Type | Description |"
+			hd2 := "| ------ | ------------ | ------------- | ----------- |"
+			buf.WriteString(hd1 + "\n")
+			buf.WriteString(hd2 + "\n")
+			for _, elem := range svs.Methods {
+				line := fmt.Sprintf("| %s | `%s` | `%s` | %s |", elem.Name, elem.RequestType, elem.ResponseType, elem.Description)
+				buf.WriteString(line + "\n")
+			}
+		} else {
+			buf.WriteString("Empty method.\n")
 		}
+
 		buf.WriteString("\n\n<br>\n\n")
 	}
 
@@ -52,55 +57,61 @@ func (p *Proto) Markdown(title, fpath string, lopts ...string) error {
 			buf.WriteString(msg.Description)
 			buf.WriteString("\n\n")
 		}
-		hd1 := "| Field | Description | Type |"
-		hd2 := "| ----- | ----------- | ---- |"
-		for _, lopt := range lopts {
-			hd1 += fmt.Sprintf(" %s |", lopt)
-			ds := strings.Repeat("-", len(lopt))
-			if len(ds) < 3 {
-				ds = "---"
-			}
-			hd2 += fmt.Sprintf(" %s |", ds)
-		}
-		buf.WriteString(hd1 + "\n")
-		buf.WriteString(hd2 + "\n")
-		for _, elem := range msg.Fields {
-			ts := elem.ProtoType.String()
-			if elem.UserDefinedProtoType != "" {
-				ts = elem.UserDefinedProtoType
-			}
-			if elem.Repeated {
-				ts = "(slice of) " + ts
-			}
-			line := fmt.Sprintf("| %s | %s | %s |", elem.Name, elem.Description, ts)
+
+		if len(msg.Fields) > 0 {
+			hd1 := "| Field | Description | Type |"
+			hd2 := "| ----- | ----------- | ---- |"
 			for _, lopt := range lopts {
-				if elem.UserDefinedProtoType != "" {
-					line += " |"
-					continue
+				hd1 += fmt.Sprintf(" %s |", lopt)
+				ds := strings.Repeat("-", len(lopt))
+				if len(ds) < 3 {
+					ds = "---"
 				}
-				formatSt := " %s |"
-				if elem.Repeated {
-					formatSt = " (slice of) %s |"
-				}
-				switch lopt {
-				case "C++":
-					line += fmt.Sprintf(formatSt, elem.ProtoType.Cpp())
-				case "Java":
-					line += fmt.Sprintf(formatSt, elem.ProtoType.Java())
-				case "Python":
-					line += fmt.Sprintf(formatSt, elem.ProtoType.Python())
-				case "Go":
-					line += fmt.Sprintf(formatSt, elem.ProtoType.Go())
-				case "Ruby":
-					line += fmt.Sprintf(formatSt, elem.ProtoType.Ruby())
-				case "C#":
-					line += fmt.Sprintf(formatSt, elem.ProtoType.Csharp())
-				default:
-					return fmt.Errorf("%q is unknown (must be C++, Java, Python, Go, Ruby, C#)", lopt)
-				}
+				hd2 += fmt.Sprintf(" %s |", ds)
 			}
-			buf.WriteString(line + "\n")
+			buf.WriteString(hd1 + "\n")
+			buf.WriteString(hd2 + "\n")
+			for _, elem := range msg.Fields {
+				ts := elem.ProtoType.String()
+				if elem.UserDefinedProtoType != "" {
+					ts = elem.UserDefinedProtoType
+				}
+				if elem.Repeated {
+					ts = "(slice of) " + ts
+				}
+				line := fmt.Sprintf("| %s | %s | %s |", elem.Name, elem.Description, ts)
+				for _, lopt := range lopts {
+					if elem.UserDefinedProtoType != "" {
+						line += " |"
+						continue
+					}
+					formatSt := " %s |"
+					if elem.Repeated {
+						formatSt = " (slice of) %s |"
+					}
+					switch lopt {
+					case "C++":
+						line += fmt.Sprintf(formatSt, elem.ProtoType.Cpp())
+					case "Java":
+						line += fmt.Sprintf(formatSt, elem.ProtoType.Java())
+					case "Python":
+						line += fmt.Sprintf(formatSt, elem.ProtoType.Python())
+					case "Go":
+						line += fmt.Sprintf(formatSt, elem.ProtoType.Go())
+					case "Ruby":
+						line += fmt.Sprintf(formatSt, elem.ProtoType.Ruby())
+					case "C#":
+						line += fmt.Sprintf(formatSt, elem.ProtoType.Csharp())
+					default:
+						return fmt.Errorf("%q is unknown (must be C++, Java, Python, Go, Ruby, C#)", lopt)
+					}
+				}
+				buf.WriteString(line + "\n")
+			}
+		} else {
+			buf.WriteString("Empty field.\n")
 		}
+
 		buf.WriteString("\n\n<br>\n\n")
 	}
 
