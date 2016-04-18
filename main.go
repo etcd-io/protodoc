@@ -54,7 +54,7 @@ func init() {
 func init() {
 	rootCommand.PersistentFlags().StringVarP(&title, "title", "t", "", "title of documentation")
 	rootCommand.PersistentFlags().StringVarP(&targetPath, "target-path", "p", "", "file path to save the documentation")
-	rootCommand.PersistentFlags().StringSliceVarP(&languageOptions, "languages", "o", []string{"Go", "C++", "Java", "Python"}, "language options in field descriptions")
+	rootCommand.PersistentFlags().StringSliceVarP(&languageOptions, "languages", "o", []string{}, "language options in field descriptions (Go, C++, Java, Python, Ruby, C#)")
 }
 
 func CommandFunc(cmd *cobra.Command, args []string) error {
