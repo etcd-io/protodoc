@@ -30,7 +30,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/coreos/prodoc/parse"
+	"github.com/coreos/protodoc/parse"
 	"github.com/spf13/cobra"
 )
 

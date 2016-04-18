@@ -114,8 +114,7 @@
 
 ##### message `AuthDisableRequest`
 
-| Field | Description | Type | Go | C++ | Java | Python |
-| ----- | ----------- | ---- | --- | --- | ---- | ------ |
+Empty field.
 
 
 <br>
@@ -131,8 +130,7 @@
 
 ##### message `AuthEnableRequest`
 
-| Field | Description | Type | Go | C++ | Java | Python |
-| ----- | ----------- | ---- | --- | --- | ---- | ------ |
+Empty field.
 
 
 <br>
@@ -166,8 +164,7 @@
 
 ##### message `AuthRoleDeleteRequest`
 
-| Field | Description | Type | Go | C++ | Java | Python |
-| ----- | ----------- | ---- | --- | --- | ---- | ------ |
+Empty field.
 
 
 <br>
@@ -183,8 +180,7 @@
 
 ##### message `AuthRoleGetRequest`
 
-| Field | Description | Type | Go | C++ | Java | Python |
-| ----- | ----------- | ---- | --- | --- | ---- | ------ |
+Empty field.
 
 
 <br>
@@ -219,8 +215,7 @@
 
 ##### message `AuthRoleRevokeRequest`
 
-| Field | Description | Type | Go | C++ | Java | Python |
-| ----- | ----------- | ---- | --- | --- | ---- | ------ |
+Empty field.
 
 
 <br>
@@ -292,8 +287,7 @@
 
 ##### message `AuthUserGetRequest`
 
-| Field | Description | Type | Go | C++ | Java | Python |
-| ----- | ----------- | ---- | --- | --- | ---- | ------ |
+Empty field.
 
 
 <br>
@@ -328,8 +322,7 @@
 
 ##### message `AuthUserRevokeRequest`
 
-| Field | Description | Type | Go | C++ | Java | Python |
-| ----- | ----------- | ---- | --- | --- | ---- | ------ |
+Empty field.
 
 
 <br>
@@ -345,8 +338,7 @@
 
 ##### message `AuthenticateRequest`
 
-| Field | Description | Type | Go | C++ | Java | Python |
-| ----- | ----------- | ---- | --- | --- | ---- | ------ |
+Empty field.
 
 
 <br>
@@ -399,8 +391,7 @@ Compaction compacts the kv store upto a given revision. All superseded keys with
 
 ##### message `DefragmentRequest`
 
-| Field | Description | Type | Go | C++ | Java | Python |
-| ----- | ----------- | ---- | --- | --- | ---- | ------ |
+Empty field.
 
 
 <br>
@@ -436,16 +427,14 @@ Compaction compacts the kv store upto a given revision. All superseded keys with
 
 ##### message `EmptyResponse`
 
-| Field | Description | Type | Go | C++ | Java | Python |
-| ----- | ----------- | ---- | --- | --- | ---- | ------ |
+Empty field.
 
 
 <br>
 
 ##### message `HashRequest`
 
-| Field | Description | Type | Go | C++ | Java | Python |
-| ----- | ----------- | ---- | --- | --- | ---- | ------ |
+Empty field.
 
 
 <br>
@@ -580,8 +569,7 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 
 ##### message `MemberListRequest`
 
-| Field | Description | Type | Go | C++ | Java | Python |
-| ----- | ----------- | ---- | --- | --- | ---- | ------ |
+Empty field.
 
 
 <br>
@@ -752,8 +740,7 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 
 ##### message `SnapshotRequest`
 
-| Field | Description | Type | Go | C++ | Java | Python |
-| ----- | ----------- | ---- | --- | --- | ---- | ------ |
+Empty field.
 
 
 <br>
@@ -771,8 +758,7 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 
 ##### message `StatusRequest`
 
-| Field | Description | Type | Go | C++ | Java | Python |
-| ----- | ----------- | ---- | --- | --- | ---- | ------ |
+Empty field.
 
 
 <br>
