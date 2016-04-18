@@ -1,6 +1,86 @@
 ### etcdserverpb
 
 
+##### service `Auth`
+
+| Method | Request Type | Response Type | Description |
+| ------ | ------------ | ------------- | ----------- |
+| AuthEnable | `AuthEnableRequest` | `AuthEnableResponse` | AuthEnable enables authentication. |
+| AuthDisable | `AuthDisableRequest` | `AuthDisableResponse` | AuthDisable disables authentication. |
+| Authenticate | `AuthenticateRequest` | `AuthenticateResponse` | Authenticate processes authenticate request. |
+| UserAdd | `AuthUserAddRequest` | `AuthUserAddResponse` | UserAdd adds a new user. |
+| UserGet | `AuthUserGetRequest` | `AuthUserGetResponse` | UserGet gets a detailed information of a user or lists entire users. |
+| UserDelete | `AuthUserDeleteRequest` | `AuthUserDeleteResponse` | UserDelete deletes a specified user. |
+| UserChangePassword | `AuthUserChangePasswordRequest` | `AuthUserChangePasswordResponse` | UserChangePassword changes password of a specified user. |
+| UserGrant | `AuthUserGrantRequest` | `AuthUserGrantResponse` | UserGrant grants a role to a specified user. |
+| UserRevoke | `AuthUserRevokeRequest` | `AuthUserRevokeResponse` | UserRevoke revokes a role of specified user. |
+| RoleAdd | `AuthRoleAddRequest` | `AuthRoleAddResponse` | RoleAdd adds a new role. |
+| RoleGet | `AuthRoleGetRequest` | `AuthRoleGetResponse` | RoleGet gets a detailed information of a role or lists entire roles. |
+| RoleDelete | `AuthRoleDeleteRequest` | `AuthRoleDeleteResponse` | RoleDelete deletes a specified role. |
+| RoleGrant | `AuthRoleGrantRequest` | `AuthRoleGrantResponse` | RoleGrant grants a permission of a specified key or range to a specified role. |
+| RoleRevoke | `AuthRoleRevokeRequest` | `AuthRoleRevokeResponse` | RoleRevoke revokes a key or range permission of a specified role. |
+
+
+<br>
+
+##### service `Cluster`
+
+| Method | Request Type | Response Type | Description |
+| ------ | ------------ | ------------- | ----------- |
+| MemberAdd | `MemberAddRequest` | `MemberAddResponse` | MemberAdd adds a member into the cluster. |
+| MemberRemove | `MemberRemoveRequest` | `MemberRemoveResponse` | MemberRemove removes an existing member from the cluster. |
+| MemberUpdate | `MemberUpdateRequest` | `MemberUpdateResponse` | MemberUpdate updates the member configuration. |
+| MemberList | `MemberListRequest` | `MemberListResponse` | MemberList lists all the members in the cluster. |
+
+
+<br>
+
+##### service `KV`
+
+| Method | Request Type | Response Type | Description |
+| ------ | ------------ | ------------- | ----------- |
+| Range | `RangeRequest` | `RangeResponse` | Range gets the keys in the range from the store. |
+| Put | `PutRequest` | `PutResponse` | Put puts the given key into the store. A put request increases the revision of the store, and generates one event in the event history. |
+| DeleteRange | `DeleteRangeRequest` | `DeleteRangeResponse` | Delete deletes the given range from the store. A delete request increase the revision of the store, and generates one event in the event history. |
+| Txn | `TxnRequest` | `TxnResponse` | Txn processes all the requests in one transaction. A txn request increases the revision of the store, and generates events with the same revision in the event history. It is not allowed to modify the same key several times within one txn. |
+| Compact | `CompactionRequest` | `CompactionResponse` | Compact compacts the event history in etcd. User should compact the event history periodically, or it will grow infinitely. |
+
+
+<br>
+
+##### service `Lease`
+
+| Method | Request Type | Response Type | Description |
+| ------ | ------------ | ------------- | ----------- |
+| LeaseGrant | `LeaseGrantRequest` | `LeaseGrantResponse` | LeaseGrant creates a lease. A lease has a TTL. The lease will expire if the server does not receive a keepAlive within TTL from the lease holder. All keys attached to the lease will be expired and deleted if the lease expires. The key expiration generates an event in event history. |
+| LeaseRevoke | `LeaseRevokeRequest` | `LeaseRevokeResponse` | LeaseRevoke revokes a lease. All the key attached to the lease will be expired and deleted. |
+| LeaseKeepAlive | `LeaseKeepAliveRequest` | `LeaseKeepAliveResponse` | KeepAlive keeps the lease alive. |
+
+
+<br>
+
+##### service `Maintenance`
+
+| Method | Request Type | Response Type | Description |
+| ------ | ------------ | ------------- | ----------- |
+| Alarm | `AlarmRequest` | `AlarmResponse` | Alarm activates, deactivates, and queries alarms regarding cluster health. |
+| Status | `StatusRequest` | `StatusResponse` | Status gets the status of the member. |
+| Defragment | `DefragmentRequest` | `DefragmentResponse` |  |
+| Hash | `HashRequest` | `HashResponse` | Hash returns the hash of the local KV state for consistency checking purpose. This is designed for testing; do not use this in production when there are ongoing transactions. |
+| Snapshot | `SnapshotRequest` | `SnapshotResponse` | Snapshot sends a snapshot of the entire backend |
+
+
+<br>
+
+##### service `Watch`
+
+| Method | Request Type | Response Type | Description |
+| ------ | ------------ | ------------- | ----------- |
+| Watch | `WatchRequest` | `WatchResponse` | Watch watches the events happening or happened. Both input and output are stream. One watch rpc can watch for multiple keys or prefixs and get a stream of events. The whole events history can be watched unless compacted. |
+
+
+<br>
+
 ##### message `AlarmMember`
 
 | Field | Description | Type | Go | Java | Python | C++ |
@@ -27,7 +107,7 @@
 | Field | Description | Type | Go | Java | Python | C++ |
 | ----- | ----------- | ---- | --- | ---- | ------ | --- |
 | header |  | ResponseHeader | | | | |
-| alarms |  | slice of AlarmMember | | | | |
+| alarms |  | (slice of) AlarmMember | | | | |
 
 
 <br>
@@ -473,8 +553,8 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 | ----- | ----------- | ---- | --- | ---- | ------ | --- |
 | ID |  | uint64 | uint64 | long | int/long | uint64 |
 | name | If the member is not started, name will be an empty string. | string | string | String | str/unicode | string |
-| peerURLs |  | slice of string | []string | []String | []str/unicode | []string |
-| clientURLs | If the member is not started, client_URLs will be an zero length string array. | slice of string | []string | []String | []str/unicode | []string |
+| peerURLs |  | (slice of) string | (slice of) string | (slice of) String | (slice of) str/unicode | (slice of) string |
+| clientURLs | If the member is not started, client_URLs will be an zero length string array. | (slice of) string | (slice of) string | (slice of) String | (slice of) str/unicode | (slice of) string |
 
 
 <br>
@@ -483,7 +563,7 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 
 | Field | Description | Type | Go | Java | Python | C++ |
 | ----- | ----------- | ---- | --- | ---- | ------ | --- |
-| peerURLs |  | slice of string | []string | []String | []str/unicode | []string |
+| peerURLs |  | (slice of) string | (slice of) string | (slice of) String | (slice of) str/unicode | (slice of) string |
 
 
 <br>
@@ -511,7 +591,7 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 | Field | Description | Type | Go | Java | Python | C++ |
 | ----- | ----------- | ---- | --- | ---- | ------ | --- |
 | header |  | ResponseHeader | | | | |
-| members |  | slice of Member | | | | |
+| members |  | (slice of) Member | | | | |
 
 
 <br>
@@ -539,7 +619,7 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 | Field | Description | Type | Go | Java | Python | C++ |
 | ----- | ----------- | ---- | --- | ---- | ------ | --- |
 | ID |  | uint64 | uint64 | long | int/long | uint64 |
-| peerURLs |  | slice of string | []string | []String | []str/unicode | []string |
+| peerURLs |  | (slice of) string | (slice of) string | (slice of) String | (slice of) str/unicode | (slice of) string |
 
 
 <br>
@@ -603,7 +683,7 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 | Field | Description | Type | Go | Java | Python | C++ |
 | ----- | ----------- | ---- | --- | ---- | ------ | --- |
 | header |  | ResponseHeader | | | | |
-| kvs |  | slice of storagepb.KeyValue | | | | |
+| kvs |  | (slice of) storagepb.KeyValue | | | | |
 | more | more indicates if there are more keys to return in the requested range. | bool | bool | boolean | boolean | bool |
 
 
@@ -717,9 +797,9 @@ If the comparisons succeed, then the success requests will be processed in order
 
 | Field | Description | Type | Go | Java | Python | C++ |
 | ----- | ----------- | ---- | --- | ---- | ------ | --- |
-| compare |  | slice of Compare | | | | |
-| success |  | slice of RequestUnion | | | | |
-| failure |  | slice of RequestUnion | | | | |
+| compare |  | (slice of) Compare | | | | |
+| success |  | (slice of) RequestUnion | | | | |
+| failure |  | (slice of) RequestUnion | | | | |
 
 
 <br>
@@ -730,7 +810,7 @@ If the comparisons succeed, then the success requests will be processed in order
 | ----- | ----------- | ---- | --- | ---- | ------ | --- |
 | header |  | ResponseHeader | | | | |
 | succeeded |  | bool | bool | boolean | boolean | bool |
-| responses |  | slice of ResponseUnion | | | | |
+| responses |  | (slice of) ResponseUnion | | | | |
 
 
 <br>
@@ -776,87 +856,7 @@ If the comparisons succeed, then the success requests will be processed in order
 | created | If the response is for a create watch request, created is set to true. Client should record the watch_id and prepare for receiving events for that watching from the same stream. All events sent to the created watching will attach with the same watch_id. | bool | bool | boolean | boolean | bool |
 | canceled | If the response is for a cancel watch request, cancel is set to true. No further events will be sent to the canceled watching. | bool | bool | boolean | boolean | bool |
 | compact_revision | CompactRevision is set to the minimum index if a watching tries to watch at a compacted index.  This happens when creating a watching at a compacted revision or the watching cannot catch up with the progress of the KV.  Client should treat the watching as canceled and should not try to create any watching with same start_revision again. | int64 | int64 | long | int/long | int64 |
-| events |  | slice of storagepb.Event | | | | |
-
-
-<br>
-
-##### service `Auth`
-
-| Method | Request Type | Response Type | Description |
-| ------ | ------------ | ------------- | ----------- |
-| AuthEnable | `AuthEnableRequest` | `AuthEnableResponse` | AuthEnable enables authentication. |
-| AuthDisable | `AuthDisableRequest` | `AuthDisableResponse` | AuthDisable disables authentication. |
-| Authenticate | `AuthenticateRequest` | `AuthenticateResponse` | Authenticate processes authenticate request. |
-| UserAdd | `AuthUserAddRequest` | `AuthUserAddResponse` | UserAdd adds a new user. |
-| UserGet | `AuthUserGetRequest` | `AuthUserGetResponse` | UserGet gets a detailed information of a user or lists entire users. |
-| UserDelete | `AuthUserDeleteRequest` | `AuthUserDeleteResponse` | UserDelete deletes a specified user. |
-| UserChangePassword | `AuthUserChangePasswordRequest` | `AuthUserChangePasswordResponse` | UserChangePassword changes password of a specified user. |
-| UserGrant | `AuthUserGrantRequest` | `AuthUserGrantResponse` | UserGrant grants a role to a specified user. |
-| UserRevoke | `AuthUserRevokeRequest` | `AuthUserRevokeResponse` | UserRevoke revokes a role of specified user. |
-| RoleAdd | `AuthRoleAddRequest` | `AuthRoleAddResponse` | RoleAdd adds a new role. |
-| RoleGet | `AuthRoleGetRequest` | `AuthRoleGetResponse` | RoleGet gets a detailed information of a role or lists entire roles. |
-| RoleDelete | `AuthRoleDeleteRequest` | `AuthRoleDeleteResponse` | RoleDelete deletes a specified role. |
-| RoleGrant | `AuthRoleGrantRequest` | `AuthRoleGrantResponse` | RoleGrant grants a permission of a specified key or range to a specified role. |
-| RoleRevoke | `AuthRoleRevokeRequest` | `AuthRoleRevokeResponse` | RoleRevoke revokes a key or range permission of a specified role. |
-
-
-<br>
-
-##### service `Cluster`
-
-| Method | Request Type | Response Type | Description |
-| ------ | ------------ | ------------- | ----------- |
-| MemberAdd | `MemberAddRequest` | `MemberAddResponse` | MemberAdd adds a member into the cluster. |
-| MemberRemove | `MemberRemoveRequest` | `MemberRemoveResponse` | MemberRemove removes an existing member from the cluster. |
-| MemberUpdate | `MemberUpdateRequest` | `MemberUpdateResponse` | MemberUpdate updates the member configuration. |
-| MemberList | `MemberListRequest` | `MemberListResponse` | MemberList lists all the members in the cluster. |
-
-
-<br>
-
-##### service `KV`
-
-| Method | Request Type | Response Type | Description |
-| ------ | ------------ | ------------- | ----------- |
-| Range | `RangeRequest` | `RangeResponse` | Range gets the keys in the range from the store. |
-| Put | `PutRequest` | `PutResponse` | Put puts the given key into the store. A put request increases the revision of the store, and generates one event in the event history. |
-| DeleteRange | `DeleteRangeRequest` | `DeleteRangeResponse` | Delete deletes the given range from the store. A delete request increase the revision of the store, and generates one event in the event history. |
-| Txn | `TxnRequest` | `TxnResponse` | Txn processes all the requests in one transaction. A txn request increases the revision of the store, and generates events with the same revision in the event history. It is not allowed to modify the same key several times within one txn. |
-| Compact | `CompactionRequest` | `CompactionResponse` | Compact compacts the event history in etcd. User should compact the event history periodically, or it will grow infinitely. |
-
-
-<br>
-
-##### service `Lease`
-
-| Method | Request Type | Response Type | Description |
-| ------ | ------------ | ------------- | ----------- |
-| LeaseGrant | `LeaseGrantRequest` | `LeaseGrantResponse` | LeaseGrant creates a lease. A lease has a TTL. The lease will expire if the server does not receive a keepAlive within TTL from the lease holder. All keys attached to the lease will be expired and deleted if the lease expires. The key expiration generates an event in event history. |
-| LeaseRevoke | `LeaseRevokeRequest` | `LeaseRevokeResponse` | LeaseRevoke revokes a lease. All the key attached to the lease will be expired and deleted. |
-| LeaseKeepAlive | `LeaseKeepAliveRequest` | `LeaseKeepAliveResponse` | KeepAlive keeps the lease alive. |
-
-
-<br>
-
-##### service `Maintenance`
-
-| Method | Request Type | Response Type | Description |
-| ------ | ------------ | ------------- | ----------- |
-| Alarm | `AlarmRequest` | `AlarmResponse` | Alarm activates, deactivates, and queries alarms regarding cluster health. |
-| Status | `StatusRequest` | `StatusResponse` | Status gets the status of the member. |
-| Defragment | `DefragmentRequest` | `DefragmentResponse` |  |
-| Hash | `HashRequest` | `HashResponse` | Hash returns the hash of the local KV state for consistency checking purpose. This is designed for testing; do not use this in production when there are ongoing transactions. |
-| Snapshot | `SnapshotRequest` | `SnapshotResponse` | Snapshot sends a snapshot of the entire backend |
-
-
-<br>
-
-##### service `Watch`
-
-| Method | Request Type | Response Type | Description |
-| ------ | ------------ | ------------- | ----------- |
-| Watch | `WatchRequest` | `WatchResponse` | Watch watches the events happening or happened. Both input and output are stream. One watch rpc can watch for multiple keys or prefixs and get a stream of events. The whole events history can be watched unless compacted. |
+| events |  | (slice of) storagepb.Event | | | | |
 
 
 <br>

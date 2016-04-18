@@ -28,6 +28,24 @@ func (p *Proto) Markdown(title, fpath string, lopts ...string) error {
 	buf := new(bytes.Buffer)
 	buf.WriteString(fmt.Sprintf("### %s\n\n\n", title))
 
+	for _, svs := range p.Services {
+		buf.WriteString(fmt.Sprintf("##### service `%s`\n\n", svs.Name))
+		if svs.Description != "" {
+			buf.WriteString(svs.Description)
+			buf.WriteString("\n\n")
+		}
+		hd1 := "| Method | Request Type | Response Type | Description |"
+		hd2 := "| ------ | ------------ | ------------- | ----------- |"
+		buf.WriteString(hd1 + "\n")
+		buf.WriteString(hd2 + "\n")
+
+		for _, elem := range svs.Methods {
+			line := fmt.Sprintf("| %s | `%s` | `%s` | %s |", elem.Name, elem.RequestType, elem.ResponseType, elem.Description)
+			buf.WriteString(line + "\n")
+		}
+		buf.WriteString("\n\n<br>\n\n")
+	}
+
 	for _, msg := range p.Messages {
 		buf.WriteString(fmt.Sprintf("##### message `%s`\n\n", msg.Name))
 		if msg.Description != "" {
@@ -81,24 +99,6 @@ func (p *Proto) Markdown(title, fpath string, lopts ...string) error {
 					return fmt.Errorf("%q is unknown (must be C++, Java, Python, Go, Ruby, C#)", lopt)
 				}
 			}
-			buf.WriteString(line + "\n")
-		}
-		buf.WriteString("\n\n<br>\n\n")
-	}
-
-	for _, svs := range p.Services {
-		buf.WriteString(fmt.Sprintf("##### service `%s`\n\n", svs.Name))
-		if svs.Description != "" {
-			buf.WriteString(svs.Description)
-			buf.WriteString("\n\n")
-		}
-		hd1 := "| Method | Request Type | Response Type | Description |"
-		hd2 := "| ------ | ------------ | ------------- | ----------- |"
-		buf.WriteString(hd1 + "\n")
-		buf.WriteString(hd2 + "\n")
-
-		for _, elem := range svs.Methods {
-			line := fmt.Sprintf("| %s | `%s` | `%s` | %s |", elem.Name, elem.RequestType, elem.ResponseType, elem.Description)
 			buf.WriteString(line + "\n")
 		}
 		buf.WriteString("\n\n<br>\n\n")
