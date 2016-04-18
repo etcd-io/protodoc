@@ -10,3 +10,6 @@ of Protocol Buffer (just enough to generate documentation).
 
 For full featured parser, please check out https://github.com/golang/protobuf.
 
+[cistat]: https://travis-ci.org/coreos/prodoc
+[prodoc-godoc]: https://godoc.org/github.com/coreos/prodoc
+
