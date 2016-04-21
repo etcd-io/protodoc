@@ -52,7 +52,7 @@ var (
 	title           string
 	outputPath      string
 
-	targetDirectories       mapString
+	targetDirectories       = newMapString()
 	messageOnlyFromThisFile string
 )
 
