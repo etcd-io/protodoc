@@ -21,7 +21,6 @@
 | RoleRevoke | AuthRoleRevokeRequest | AuthRoleRevokeResponse | RoleRevoke revokes a key or range permission of a specified role. |
 
 
-<br>
 
 ##### service `Cluster`
 
@@ -33,7 +32,6 @@
 | MemberList | MemberListRequest | MemberListResponse | MemberList lists all the members in the cluster. |
 
 
-<br>
 
 ##### service `KV`
 
@@ -46,7 +44,6 @@
 | Compact | CompactionRequest | CompactionResponse | Compact compacts the event history in etcd. User should compact the event history periodically, or it will grow infinitely. |
 
 
-<br>
 
 ##### service `Lease`
 
@@ -57,7 +54,6 @@
 | LeaseKeepAlive | LeaseKeepAliveRequest | LeaseKeepAliveResponse | KeepAlive keeps the lease alive. |
 
 
-<br>
 
 ##### service `Maintenance`
 
@@ -70,7 +66,6 @@
 | Snapshot | SnapshotRequest | SnapshotResponse | Snapshot sends a snapshot of the entire backend |
 
 
-<br>
 
 ##### service `Watch`
 
@@ -79,7 +74,6 @@
 | Watch | WatchRequest | WatchResponse | Watch watches the events happening or happened. Both input and output are stream. One watch rpc can watch for multiple keys or prefixs and get a stream of events. The whole events history can be watched unless compacted. |
 
 
-<br>
 
 ##### message `AlarmMember`
 
@@ -89,7 +83,6 @@
 | alarm |  | AlarmType | | | | |
 
 
-<br>
 
 ##### message `AlarmRequest`
 
@@ -100,7 +93,6 @@
 | alarm |  | AlarmType | | | | |
 
 
-<br>
 
 ##### message `AlarmResponse`
 
@@ -110,14 +102,12 @@
 | alarms |  | (slice of) AlarmMember | | | | |
 
 
-<br>
 
 ##### message `AuthDisableRequest`
 
 Empty field.
 
 
-<br>
 
 ##### message `AuthDisableResponse`
 
@@ -126,14 +116,12 @@ Empty field.
 | header |  | ResponseHeader | | | | |
 
 
-<br>
 
 ##### message `AuthEnableRequest`
 
 Empty field.
 
 
-<br>
 
 ##### message `AuthEnableResponse`
 
@@ -142,7 +130,6 @@ Empty field.
 | header |  | ResponseHeader | | | | |
 
 
-<br>
 
 ##### message `AuthRoleAddRequest`
 
@@ -151,7 +138,6 @@ Empty field.
 | name |  | string | string | string | String | str/unicode |
 
 
-<br>
 
 ##### message `AuthRoleAddResponse`
 
@@ -160,14 +146,12 @@ Empty field.
 | header |  | ResponseHeader | | | | |
 
 
-<br>
 
 ##### message `AuthRoleDeleteRequest`
 
 Empty field.
 
 
-<br>
 
 ##### message `AuthRoleDeleteResponse`
 
@@ -176,14 +160,12 @@ Empty field.
 | header |  | ResponseHeader | | | | |
 
 
-<br>
 
 ##### message `AuthRoleGetRequest`
 
 Empty field.
 
 
-<br>
 
 ##### message `AuthRoleGetResponse`
 
@@ -192,7 +174,6 @@ Empty field.
 | header |  | ResponseHeader | | | | |
 
 
-<br>
 
 ##### message `AuthRoleGrantRequest`
 
@@ -202,7 +183,6 @@ Empty field.
 | perm |  | authpb.Permission | | | | |
 
 
-<br>
 
 ##### message `AuthRoleGrantResponse`
 
@@ -211,14 +191,12 @@ Empty field.
 | header |  | ResponseHeader | | | | |
 
 
-<br>
 
 ##### message `AuthRoleRevokeRequest`
 
 Empty field.
 
 
-<br>
 
 ##### message `AuthRoleRevokeResponse`
 
@@ -227,7 +205,6 @@ Empty field.
 | header |  | ResponseHeader | | | | |
 
 
-<br>
 
 ##### message `AuthUserAddRequest`
 
@@ -237,7 +214,6 @@ Empty field.
 | password |  | string | string | string | String | str/unicode |
 
 
-<br>
 
 ##### message `AuthUserAddResponse`
 
@@ -246,7 +222,6 @@ Empty field.
 | header |  | ResponseHeader | | | | |
 
 
-<br>
 
 ##### message `AuthUserChangePasswordRequest`
 
@@ -256,7 +231,6 @@ Empty field.
 | password |  | string | string | string | String | str/unicode |
 
 
-<br>
 
 ##### message `AuthUserChangePasswordResponse`
 
@@ -265,7 +239,6 @@ Empty field.
 | header |  | ResponseHeader | | | | |
 
 
-<br>
 
 ##### message `AuthUserDeleteRequest`
 
@@ -274,7 +247,6 @@ Empty field.
 | name |  | string | string | string | String | str/unicode |
 
 
-<br>
 
 ##### message `AuthUserDeleteResponse`
 
@@ -283,14 +255,12 @@ Empty field.
 | header |  | ResponseHeader | | | | |
 
 
-<br>
 
 ##### message `AuthUserGetRequest`
 
 Empty field.
 
 
-<br>
 
 ##### message `AuthUserGetResponse`
 
@@ -299,7 +269,6 @@ Empty field.
 | header |  | ResponseHeader | | | | |
 
 
-<br>
 
 ##### message `AuthUserGrantRequest`
 
@@ -309,7 +278,6 @@ Empty field.
 | role |  | string | string | string | String | str/unicode |
 
 
-<br>
 
 ##### message `AuthUserGrantResponse`
 
@@ -318,14 +286,12 @@ Empty field.
 | header |  | ResponseHeader | | | | |
 
 
-<br>
 
 ##### message `AuthUserRevokeRequest`
 
 Empty field.
 
 
-<br>
 
 ##### message `AuthUserRevokeResponse`
 
@@ -334,14 +300,12 @@ Empty field.
 | header |  | ResponseHeader | | | | |
 
 
-<br>
 
 ##### message `AuthenticateRequest`
 
 Empty field.
 
 
-<br>
 
 ##### message `AuthenticateResponse`
 
@@ -350,7 +314,6 @@ Empty field.
 | header |  | ResponseHeader | | | | |
 
 
-<br>
 
 ##### message `CompactionRequest`
 
@@ -362,7 +325,6 @@ Compaction compacts the kv store upto a given revision. All superseded keys with
 | physical | physical is set so the RPC will wait until the compaction is physically applied to the local database such that compacted entries are totally removed from the backing store. | bool | bool | bool | boolean | boolean |
 
 
-<br>
 
 ##### message `CompactionResponse`
 
@@ -371,7 +333,6 @@ Compaction compacts the kv store upto a given revision. All superseded keys with
 | header |  | ResponseHeader | | | | |
 
 
-<br>
 
 ##### message `Compare`
 
@@ -387,14 +348,12 @@ Compaction compacts the kv store upto a given revision. All superseded keys with
 | value | value of the given key | bytes | []byte | string | ByteString | str |
 
 
-<br>
 
 ##### message `DefragmentRequest`
 
 Empty field.
 
 
-<br>
 
 ##### message `DefragmentResponse`
 
@@ -403,7 +362,6 @@ Empty field.
 | header |  | ResponseHeader | | | | |
 
 
-<br>
 
 ##### message `DeleteRangeRequest`
 
@@ -413,7 +371,6 @@ Empty field.
 | range_end | if the range_end is given, it deletes the keys in range [key, range_end). | bytes | []byte | string | ByteString | str |
 
 
-<br>
 
 ##### message `DeleteRangeResponse`
 
@@ -423,21 +380,18 @@ Empty field.
 | deleted | Deleted is the number of keys that got deleted. | int64 | int64 | int64 | long | int/long |
 
 
-<br>
 
 ##### message `EmptyResponse`
 
 Empty field.
 
 
-<br>
 
 ##### message `HashRequest`
 
 Empty field.
 
 
-<br>
 
 ##### message `HashResponse`
 
@@ -447,7 +401,6 @@ Empty field.
 | hash |  | uint32 | uint32 | uint32 | int | int/long |
 
 
-<br>
 
 ##### message `InternalRaftRequest`
 
@@ -474,7 +427,6 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 | alarm |  | AlarmRequest | | | | |
 
 
-<br>
 
 ##### message `LeaseGrantRequest`
 
@@ -484,7 +436,6 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 | ID | requested ID to create; 0 lets lessor choose | int64 | int64 | int64 | long | int/long |
 
 
-<br>
 
 ##### message `LeaseGrantResponse`
 
@@ -496,7 +447,6 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 | error |  | string | string | string | String | str/unicode |
 
 
-<br>
 
 ##### message `LeaseKeepAliveRequest`
 
@@ -505,7 +455,6 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 | ID |  | int64 | int64 | int64 | long | int/long |
 
 
-<br>
 
 ##### message `LeaseKeepAliveResponse`
 
@@ -516,7 +465,6 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 | TTL |  | int64 | int64 | int64 | long | int/long |
 
 
-<br>
 
 ##### message `LeaseRevokeRequest`
 
@@ -525,7 +473,6 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 | ID |  | int64 | int64 | int64 | long | int/long |
 
 
-<br>
 
 ##### message `LeaseRevokeResponse`
 
@@ -534,7 +481,6 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 | header |  | ResponseHeader | | | | |
 
 
-<br>
 
 ##### message `Member`
 
@@ -546,7 +492,6 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 | clientURLs | If the member is not started, client_URLs will be an zero length string array. | (slice of) string | (slice of) string | (slice of) string | (slice of) String | (slice of) str/unicode |
 
 
-<br>
 
 ##### message `MemberAddRequest`
 
@@ -555,7 +500,6 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 | peerURLs |  | (slice of) string | (slice of) string | (slice of) string | (slice of) String | (slice of) str/unicode |
 
 
-<br>
 
 ##### message `MemberAddResponse`
 
@@ -565,14 +509,12 @@ An InternalRaftRequest is the union of all requests which can be sent via raft.
 | member |  | Member | | | | |
 
 
-<br>
 
 ##### message `MemberListRequest`
 
 Empty field.
 
 
-<br>
 
 ##### message `MemberListResponse`
 
@@ -582,7 +524,6 @@ Empty field.
 | members |  | (slice of) Member | | | | |
 
 
-<br>
 
 ##### message `MemberRemoveRequest`
 
@@ -591,7 +532,6 @@ Empty field.
 | ID |  | uint64 | uint64 | uint64 | long | int/long |
 
 
-<br>
 
 ##### message `MemberRemoveResponse`
 
@@ -600,7 +540,6 @@ Empty field.
 | header |  | ResponseHeader | | | | |
 
 
-<br>
 
 ##### message `MemberUpdateRequest`
 
@@ -610,7 +549,6 @@ Empty field.
 | peerURLs |  | (slice of) string | (slice of) string | (slice of) string | (slice of) String | (slice of) str/unicode |
 
 
-<br>
 
 ##### message `MemberUpdateResponse`
 
@@ -619,7 +557,6 @@ Empty field.
 | header |  | ResponseHeader | | | | |
 
 
-<br>
 
 ##### message `Metadata`
 
@@ -629,7 +566,6 @@ Empty field.
 | ClusterID |  | uint64 | uint64 | uint64 | long | int/long |
 
 
-<br>
 
 ##### message `PutRequest`
 
@@ -640,7 +576,6 @@ Empty field.
 | lease |  | int64 | int64 | int64 | long | int/long |
 
 
-<br>
 
 ##### message `PutResponse`
 
@@ -649,7 +584,6 @@ Empty field.
 | header |  | ResponseHeader | | | | |
 
 
-<br>
 
 ##### message `RangeRequest`
 
@@ -664,7 +598,6 @@ Empty field.
 | serializable | range request is linearizable by default. Linearizable requests has a higher latency and lower throughput than serializable request. To reduce latency, serializable can be set. If serializable is set, range request will be serializable, but not linearizable with other requests. Serializable range can be served locally without waiting for other nodes in the cluster. | bool | bool | bool | boolean | boolean |
 
 
-<br>
 
 ##### message `RangeResponse`
 
@@ -675,7 +608,6 @@ Empty field.
 | more | more indicates if there are more keys to return in the requested range. | bool | bool | bool | boolean | boolean |
 
 
-<br>
 
 ##### message `Request`
 
@@ -700,7 +632,6 @@ Empty field.
 | Refresh |  | bool | bool | bool | boolean | boolean |
 
 
-<br>
 
 ##### message `RequestUnion`
 
@@ -712,7 +643,6 @@ Empty field.
 | request_delete_range |  | DeleteRangeRequest | | | | |
 
 
-<br>
 
 ##### message `ResponseHeader`
 
@@ -724,7 +654,6 @@ Empty field.
 | raft_term | term of raft when the request was applied. | uint64 | uint64 | uint64 | long | int/long |
 
 
-<br>
 
 ##### message `ResponseUnion`
 
@@ -736,14 +665,12 @@ Empty field.
 | response_delete_range |  | DeleteRangeResponse | | | | |
 
 
-<br>
 
 ##### message `SnapshotRequest`
 
 Empty field.
 
 
-<br>
 
 ##### message `SnapshotResponse`
 
@@ -754,14 +681,12 @@ Empty field.
 | blob | blob has the next chunk of the snapshot in the snapshot stream. | bytes | []byte | string | ByteString | str |
 
 
-<br>
 
 ##### message `StatusRequest`
 
 Empty field.
 
 
-<br>
 
 ##### message `StatusResponse`
 
@@ -775,7 +700,6 @@ Empty field.
 | raftTerm |  | uint64 | uint64 | uint64 | long | int/long |
 
 
-<br>
 
 ##### message `TxnRequest`
 
@@ -788,7 +712,6 @@ If the comparisons succeed, then the success requests will be processed in order
 | failure |  | (slice of) RequestUnion | | | | |
 
 
-<br>
 
 ##### message `TxnResponse`
 
@@ -799,7 +722,6 @@ If the comparisons succeed, then the success requests will be processed in order
 | responses |  | (slice of) ResponseUnion | | | | |
 
 
-<br>
 
 ##### message `WatchCancelRequest`
 
@@ -808,7 +730,6 @@ If the comparisons succeed, then the success requests will be processed in order
 | watch_id |  | int64 | int64 | int64 | long | int/long |
 
 
-<br>
 
 ##### message `WatchCreateRequest`
 
@@ -820,7 +741,6 @@ If the comparisons succeed, then the success requests will be processed in order
 | progress_notify | if progress_notify is set, etcd server sends WatchResponse with empty events to the created watcher when there are no recent events. It is useful when clients want always to be able to recover a disconnected watcher from a recent known revision. etcdsever can decide how long it should send a notification based on current load. | bool | bool | bool | boolean | boolean |
 
 
-<br>
 
 ##### message `WatchRequest`
 
@@ -831,7 +751,6 @@ If the comparisons succeed, then the success requests will be processed in order
 | cancel_request |  | WatchCancelRequest | | | | |
 
 
-<br>
 
 ##### message `WatchResponse`
 
@@ -845,5 +764,4 @@ If the comparisons succeed, then the success requests will be processed in order
 | events |  | (slice of) storagepb.Event | | | | |
 
 
-<br>
 

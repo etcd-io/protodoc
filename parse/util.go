@@ -60,8 +60,6 @@ func toFile(txt, fpath string) error {
 		}
 	}
 	defer f.Close()
-	if _, err := f.WriteString(txt); err != nil {
-		return err
-	}
-	return nil
+	_, err = f.WriteString(txt)
+	return err
 }

@@ -8,10 +8,18 @@ protodoc generates Protocol Buffer documentation.
 ```
 go get -v -u github.com/coreos/protodoc
 
-protodoc ./parse/testdata \
+protodoc --directory=./parse/testdata \
+	--parse="service,message" \
 	--languages="Go,C++,Java,Python" \
-	--title="testdata" \
-	--target-path="./sample.md"
+	--title=testdata \
+	--output=sample.md
+
+# to combine multiple directories into one
+protodoc --directories=./parse/testdata=message,dirA=message_service \
+	--parse="service,message" \
+	--languages="Go,C++,Java,Python" \
+	--title=testdata \
+	--output=sample.md
 ```
 
 Note that parser only understands the minimum syntax

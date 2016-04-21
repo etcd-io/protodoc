@@ -29,6 +29,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/coreos/protodoc/parse"
 	"github.com/spf13/cobra"
@@ -41,37 +42,102 @@ var (
 		RunE:  CommandFunc,
 	}
 
-	title           string
-	targetDir       string
-	targetPath      string
+	targetDirectory string
+	parseOptions    []string
 	languageOptions []string
+	title           string
+	outputPath      string
+
+	targetDirectories mapString
 )
+
+type mapString map[string][]parse.ParseOption
+
+func newMapString() mapString {
+	return mapString(make(map[string][]parse.ParseOption))
+}
+func (m mapString) String() string {
+	return ""
+}
+func (m mapString) Set(s string) error {
+	for _, elem := range strings.Split(s, ",") {
+		pair := strings.Split(elem, "=")
+		if len(pair) != 2 {
+			return fmt.Errorf("invalid format %s", pair)
+		}
+		opts := []parse.ParseOption{}
+		for _, v := range strings.Split(pair[1], "_") {
+			switch v {
+			case "message":
+				opts = append(opts, parse.ParseMessage)
+			case "service":
+				opts = append(opts, parse.ParseService)
+			}
+		}
+		m[pair[0]] = opts
+	}
+	return nil
+}
+func (m mapString) Type() string {
+	return "map[string][]parse.ParseOption"
+}
 
 func init() {
 	cobra.EnablePrefixMatching = true
 }
 
 func init() {
+	rootCommand.PersistentFlags().StringVarP(&targetDirectory, "directory", "d", "", "target directory where Protocol Buffer files are.")
+	rootCommand.PersistentFlags().StringSliceVarP(&parseOptions, "parse", "p", []string{"service", "message"}, "Protocol Buffer types to parse (message, service)")
+	rootCommand.PersistentFlags().StringSliceVarP(&languageOptions, "languages", "l", []string{}, "language options in field descriptions (Go, C++, Java, Python, Ruby, C#)")
 	rootCommand.PersistentFlags().StringVarP(&title, "title", "t", "", "title of documentation")
-	rootCommand.PersistentFlags().StringVarP(&targetPath, "target-path", "p", "", "file path to save the documentation")
-	rootCommand.PersistentFlags().StringSliceVarP(&languageOptions, "languages", "o", []string{}, "language options in field descriptions (Go, C++, Java, Python, Ruby, C#)")
+	rootCommand.PersistentFlags().StringVarP(&outputPath, "output", "o", "", "output file path to save documentation")
+
+	rootCommand.PersistentFlags().Var(&targetDirectories, "directories", "comma separated map of target directory to parse options (e.g. 'dirA=message,dirB=message_service')")
 }
 
 func CommandFunc(cmd *cobra.Command, args []string) error {
-	if len(args) != 1 {
-		return fmt.Errorf("need 1 argument of target directory, got %q", args)
+	var rs string
+	if len(targetDirectories) == 0 {
+		log.Println("opening", targetDirectory)
+		proto, err := parse.ReadDir(targetDirectory)
+		if err != nil {
+			return err
+		}
+		opts := []parse.ParseOption{}
+		for _, v := range parseOptions {
+			switch v {
+			case "message":
+				opts = append(opts, parse.ParseMessage)
+			case "service":
+				opts = append(opts, parse.ParseService)
+			}
+		}
+		log.Println("converting to markdown", title)
+		rs, err = proto.Markdown(title, opts, languageOptions...)
+		if err != nil {
+			return err
+		}
+	} else {
+		for k, opts := range targetDirectories {
+			log.Println("opening", k)
+			proto, err := parse.ReadDir(k)
+			if err != nil {
+				return err
+			}
+			ms, err := proto.Markdown("", opts, languageOptions...)
+			if err != nil {
+				return err
+			}
+			rs += ms
+		}
+		rs = fmt.Sprintf("### %s\n\n\n", title) + rs
 	}
-	targetDir := args[0]
-	log.Println("opening", targetDir)
-	proto, err := parse.ReadDir(targetDir)
+	err := toFile(rs, outputPath)
 	if err != nil {
 		return err
 	}
-	err = proto.Markdown(title, targetPath, languageOptions...)
-	if err != nil {
-		return err
-	}
-	log.Printf("saved at %s", targetPath)
+	log.Printf("saved at %s", outputPath)
 	return nil
 }
 
@@ -80,4 +146,17 @@ func main() {
 		fmt.Fprintln(os.Stdout, err)
 		os.Exit(1)
 	}
+}
+
+func toFile(txt, fpath string) error {
+	f, err := os.OpenFile(fpath, os.O_RDWR|os.O_TRUNC, 0777)
+	if err != nil {
+		f, err = os.Create(fpath)
+		if err != nil {
+			return err
+		}
+	}
+	defer f.Close()
+	_, err = f.WriteString(txt)
+	return err
 }
