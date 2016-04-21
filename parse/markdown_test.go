@@ -17,7 +17,7 @@ package parse
 import "testing"
 
 func TestMarkdown(t *testing.T) {
-	proto, err := ReadDir("testdata")
+	proto, err := ReadDir("testdata", "")
 	if err != nil {
 		t.Fatal(err)
 	}

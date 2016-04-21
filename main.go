@@ -15,13 +15,17 @@
 // protodoc generates Protocol Buffer documentation.
 //
 //	Usage:
-//	protodoc [flags]
+//	  protodoc [flags]
 //
 //	Flags:
-//	-h, --help                 help for protodoc
-//	-o, --languages value      language options in field descriptions (default [Go,C++,Java,Python])
-//	-p, --target-path string   file path to save the documentation
-//	-t, --title string         title of documentation
+//	      --directories value                    comma separated map of target directory to parse options (e.g. 'dirA=message,dirB=message_service')
+//	  -d, --directory string                     target directory where Protocol Buffer files are.
+//	  -h, --help                                 help for protodoc
+//	  -l, --languages value                      language options in field descriptions (Go, C++, Java, Python, Ruby, C#) (default [])
+//	      --message-only-from-this-file string   if specified, it parses only the messages in this file within the directory
+//	  -o, --output string                        output file path to save documentation
+//	  -p, --parse value                          Protocol Buffer types to parse (message, service) (default [service,message])
+//	  -t, --title string                         title of documentation
 //
 package main
 
@@ -48,7 +52,8 @@ var (
 	title           string
 	outputPath      string
 
-	targetDirectories mapString
+	targetDirectories       mapString
+	messageOnlyFromThisFile string
 )
 
 type mapString map[string][]parse.ParseOption
@@ -94,13 +99,14 @@ func init() {
 	rootCommand.PersistentFlags().StringVarP(&outputPath, "output", "o", "", "output file path to save documentation")
 
 	rootCommand.PersistentFlags().Var(&targetDirectories, "directories", "comma separated map of target directory to parse options (e.g. 'dirA=message,dirB=message_service')")
+	rootCommand.PersistentFlags().StringVar(&messageOnlyFromThisFile, "message-only-from-this-file", "", "if specified, it parses only the messages in this file within the directory")
 }
 
 func CommandFunc(cmd *cobra.Command, args []string) error {
 	var rs string
 	if len(targetDirectories) == 0 {
 		log.Println("opening", targetDirectory)
-		proto, err := parse.ReadDir(targetDirectory)
+		proto, err := parse.ReadDir(targetDirectory, "")
 		if err != nil {
 			return err
 		}
@@ -121,7 +127,7 @@ func CommandFunc(cmd *cobra.Command, args []string) error {
 	} else {
 		for k, opts := range targetDirectories {
 			log.Println("opening", k)
-			proto, err := parse.ReadDir(k)
+			proto, err := parse.ReadDir(k, messageOnlyFromThisFile)
 			if err != nil {
 				return err
 			}

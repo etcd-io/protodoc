@@ -62,33 +62,47 @@ const (
 	parsingRPC
 )
 
-func ReadDir(targetDir string) (*Proto, error) {
+func ReadDir(targetDir, messageOnlyFromThisFile string) (*Proto, error) {
 	rm, err := walkDirExt(targetDir, ".proto")
 	if err != nil {
 		return nil, err
 	}
 
-	var lines []string
-	for _, fpath := range rm {
-		f, err := os.OpenFile(fpath, os.O_RDONLY, 0444)
-		if err != nil {
-			return nil, err
-		}
-
-		ls, err := readLines(f)
-		if err != nil {
-			f.Close()
-			return nil, err
-		}
-		lines = append(lines, ls...)
-
-		f.Close()
+	pr := &Proto{
+		Services: []ProtoService{},
+		Messages: []ProtoMessage{},
 	}
+	for _, fpath := range rm {
+		p, err := ReadFile(fpath)
+		if err != nil {
+			return nil, err
+		}
+		pr.Services = append(pr.Services, p.Services...)
+		if messageOnlyFromThisFile == "" ||
+			(messageOnlyFromThisFile != "" && strings.HasSuffix(fpath, messageOnlyFromThisFile)) {
+			pr.Messages = append(pr.Messages, p.Messages...)
+		}
+	}
+	return pr, nil
+}
+
+func ReadFile(fpath string) (*Proto, error) {
+	f, err := os.OpenFile(fpath, os.O_RDONLY, 0444)
+	if err != nil {
+		return nil, err
+	}
+
+	lines, err := readLines(f)
+	if err != nil {
+		f.Close()
+		return nil, err
+	}
+	f.Close()
 
 	var (
 		rp = Proto{
-			Messages: []ProtoMessage{},
 			Services: []ProtoService{},
+			Messages: []ProtoMessage{},
 		}
 		mode = reading
 

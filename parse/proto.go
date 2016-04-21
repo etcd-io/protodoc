@@ -18,15 +18,9 @@ import "sort"
 
 // Proto represents sets of 'ProtoMessage' and 'ProtoService'.
 type Proto struct {
-	Messages []ProtoMessage
 	Services []ProtoService
+	Messages []ProtoMessage
 }
-
-type messages []ProtoMessage
-
-func (s messages) Len() int           { return len(s) }
-func (s messages) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
-func (s messages) Less(i, j int) bool { return s[i].Name < s[j].Name }
 
 type services []ProtoService
 
@@ -34,9 +28,31 @@ func (s services) Len() int           { return len(s) }
 func (s services) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
 func (s services) Less(i, j int) bool { return s[i].Name < s[j].Name }
 
+type messages []ProtoMessage
+
+func (s messages) Len() int           { return len(s) }
+func (s messages) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
+func (s messages) Less(i, j int) bool { return s[i].Name < s[j].Name }
+
 func (p *Proto) Sort() {
-	sort.Sort(messages(p.Messages))
 	sort.Sort(services(p.Services))
+	sort.Sort(messages(p.Messages))
+}
+
+// ProtoService represents the 'service' type in Protocol Buffer.
+// (https://developers.google.com/protocol-buffers/docs/proto3#services)
+type ProtoService struct {
+	Name        string
+	Description string
+	Methods     []ProtoMethod
+}
+
+// ProtoMethod represents methods in ProtoService.
+type ProtoMethod struct {
+	Name         string
+	Description  string
+	RequestType  string
+	ResponseType string
 }
 
 // ProtoMessage represents the 'message' type in Protocol Buffer.
@@ -54,20 +70,4 @@ type ProtoField struct {
 	Repeated             bool
 	ProtoType            ProtoType
 	UserDefinedProtoType string
-}
-
-// ProtoService represents the 'service' type in Protocol Buffer.
-// (https://developers.google.com/protocol-buffers/docs/proto3#services)
-type ProtoService struct {
-	Name        string
-	Description string
-	Methods     []ProtoMethod
-}
-
-// ProtoMethod represents methods in ProtoService.
-type ProtoMethod struct {
-	Name         string
-	Description  string
-	RequestType  string
-	ResponseType string
 }
