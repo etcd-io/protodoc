@@ -91,6 +91,16 @@ func ReadFile(fpath string) (*Proto, error) {
 	if err != nil {
 		return nil, err
 	}
+	var (
+		wd, _ = os.Getwd()
+		fs    = fpath
+	)
+	if strings.HasPrefix(fs, wd) {
+		fs = strings.Replace(fs, wd, "", 1)
+		if strings.HasPrefix(fs, "/") {
+			fs = strings.Replace(fs, "/", "", 1)
+		}
+	}
 
 	lines, err := readLines(f)
 	if err != nil {
@@ -161,6 +171,7 @@ func ReadFile(fpath string) (*Proto, error) {
 
 		case parsingMessage:
 			if strings.HasSuffix(line, "}") { // closing of message
+				protoMessage.FilePath = fs
 				rp.Messages = append(rp.Messages, protoMessage)
 				protoMessage = ProtoMessage{}
 				comments = []string{}
@@ -214,6 +225,7 @@ func ReadFile(fpath string) (*Proto, error) {
 				protoService.Methods = append(protoService.Methods, protoMethod)
 				comments = []string{}
 			} else if !strings.HasSuffix(line, "{}") && strings.HasSuffix(line, "}") { // closing of service
+				protoService.FilePath = fs
 				rp.Services = append(rp.Services, protoService)
 				protoService = ProtoService{}
 				comments = []string{}

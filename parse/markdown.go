@@ -41,7 +41,7 @@ func (p *Proto) Markdown(title string, parseOpts []ParseOption, lopts ...string)
 		switch opt {
 		case ParseService:
 			for _, svs := range p.Services {
-				buf.WriteString(fmt.Sprintf("##### service `%s`\n\n", svs.Name))
+				buf.WriteString(fmt.Sprintf("##### service `%s` (%s)\n\n", svs.Name, svs.FilePath))
 				if svs.Description != "" {
 					buf.WriteString(svs.Description)
 					buf.WriteString("\n\n")
@@ -65,7 +65,7 @@ func (p *Proto) Markdown(title string, parseOpts []ParseOption, lopts ...string)
 
 		case ParseMessage:
 			for _, msg := range p.Messages {
-				buf.WriteString(fmt.Sprintf("##### message `%s`\n\n", msg.Name))
+				buf.WriteString(fmt.Sprintf("##### message `%s` (%s)\n\n", msg.Name, msg.FilePath))
 				if msg.Description != "" {
 					buf.WriteString(msg.Description)
 					buf.WriteString("\n\n")

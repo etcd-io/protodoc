@@ -42,6 +42,7 @@ func (p *Proto) Sort() {
 // ProtoService represents the 'service' type in Protocol Buffer.
 // (https://developers.google.com/protocol-buffers/docs/proto3#services)
 type ProtoService struct {
+	FilePath    string
 	Name        string
 	Description string
 	Methods     []ProtoMethod
@@ -58,6 +59,7 @@ type ProtoMethod struct {
 // ProtoMessage represents the 'message' type in Protocol Buffer.
 // (https://developers.google.com/protocol-buffers/docs/proto3#simple)
 type ProtoMessage struct {
+	FilePath    string
 	Name        string
 	Description string
 	Fields      []ProtoField
