@@ -16,7 +16,6 @@ protodoc --directory=./parse/testdata \
 
 # to combine multiple directories into one
 protodoc --directories=./parse/testdata=message,dirA=message_service \
-	--parse="service,message" \
 	--languages="Go,C++,Java,Python" \
 	--title=testdata \
 	--output=sample.md
