@@ -33,6 +33,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/coreos/protodoc/parse"
@@ -127,7 +128,14 @@ func CommandFunc(cmd *cobra.Command, args []string) error {
 	} else {
 		for k, opts := range targetDirectories {
 			log.Println("opening", k)
-			proto, err := parse.ReadDir(k, messageOnlyFromThisFile)
+			c1 := filepath.Base(filepath.Dir(messageOnlyFromThisFile))
+			c2 := filepath.Base(k)
+			bs := ""
+			if c1 == c2 {
+				bs = messageOnlyFromThisFile
+				log.Println("message only from this file:", messageOnlyFromThisFile)
+			}
+			proto, err := parse.ReadDir(k, bs)
 			if err != nil {
 				return err
 			}
