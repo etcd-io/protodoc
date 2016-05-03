@@ -53,19 +53,26 @@ var (
 	title           string
 	outputPath      string
 
-	targetDirectories       = newMapString()
+	targetDirectories       = newDirectoryOptions()
 	messageOnlyFromThisFile string
 )
 
-type mapString map[string][]parse.ParseOption
-
-func newMapString() mapString {
-	return mapString(make(map[string][]parse.ParseOption))
+type directoryOption struct {
+	directory string
+	options   []parse.ParseOption
 }
-func (m mapString) String() string {
+
+type directoryOptions []directoryOption
+
+func newDirectoryOptions() directoryOptions {
+	return directoryOptions(make([]directoryOption, 0))
+}
+
+func (do directoryOptions) String() string {
 	return ""
 }
-func (m mapString) Set(s string) error {
+
+func (do *directoryOptions) Set(s string) error {
 	for _, elem := range strings.Split(s, ",") {
 		pair := strings.Split(elem, "=")
 		if len(pair) != 2 {
@@ -80,12 +87,13 @@ func (m mapString) Set(s string) error {
 				opts = append(opts, parse.ParseService)
 			}
 		}
-		m[pair[0]] = opts
+		*do = append(*do, directoryOption{directory: pair[0], options: opts})
 	}
 	return nil
 }
-func (m mapString) Type() string {
-	return "map[string][]parse.ParseOption"
+
+func (do directoryOptions) Type() string {
+	return "[]directoryOption"
 }
 
 func init() {
@@ -126,20 +134,20 @@ func CommandFunc(cmd *cobra.Command, args []string) error {
 			return err
 		}
 	} else {
-		for k, opts := range targetDirectories {
-			log.Println("opening", k)
+		for _, elem := range targetDirectories {
+			log.Println("opening", elem.directory)
 			c1 := filepath.Base(filepath.Dir(messageOnlyFromThisFile))
-			c2 := filepath.Base(k)
+			c2 := filepath.Base(elem.directory)
 			bs := ""
 			if c1 == c2 {
 				bs = messageOnlyFromThisFile
 				log.Println("message only from this file:", messageOnlyFromThisFile)
 			}
-			proto, err := parse.ReadDir(k, bs)
+			proto, err := parse.ReadDir(elem.directory, bs)
 			if err != nil {
 				return err
 			}
-			ms, err := proto.Markdown("", opts, languageOptions...)
+			ms, err := proto.Markdown("", elem.options, languageOptions...)
 			if err != nil {
 				return err
 			}
