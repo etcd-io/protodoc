@@ -30,14 +30,7 @@ func walkDirExt(targetDir, ext string) (map[os.FileInfo]string, error) {
 			if !f.IsDir() {
 				if filepath.Ext(path) == ext {
 					if !filepath.HasPrefix(path, ".") && !strings.Contains(path, "/.") {
-						if _, ok := rmap[f]; !ok {
-							wd, err := os.Getwd()
-							if err != nil {
-								return err
-							}
-							thepath := filepath.Join(wd, strings.Replace(path, wd, "", -1))
-							rmap[f] = thepath
-						}
+						rmap[f] = path
 					}
 				}
 			}
