@@ -21,7 +21,7 @@ func TestMarkdown(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if txt, err := proto.Markdown("this is test...", "etcdserverpb", []ParseOption{ParseService, ParseMessage}, "Go", "Java", "Python", "C++"); err != nil {
+	if txt, err := proto.Markdown("etcdserverpb", []ParseOption{ParseService, ParseMessage}, "Go", "Java", "Python", "C++"); err != nil {
 		t.Fatal(err)
 	} else {
 		err = toFile(txt, "testdata/README.md")

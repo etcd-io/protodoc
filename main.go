@@ -116,6 +116,9 @@ func init() {
 
 func CommandFunc(cmd *cobra.Command, args []string) error {
 	var rs string
+	if len(disclaimer) > 0 {
+		rs += disclaimer + "\n\n\n"
+	}
 	if len(targetDirectories) == 0 {
 		log.Println("opening", targetDirectory)
 		proto, err := parse.ReadDir(targetDirectory, "")
@@ -132,7 +135,7 @@ func CommandFunc(cmd *cobra.Command, args []string) error {
 			}
 		}
 		log.Println("converting to markdown", title)
-		rs, err = proto.Markdown(disclaimer, title, opts, languageOptions...)
+		rs, err = proto.Markdown(title, opts, languageOptions...)
 		if err != nil {
 			return err
 		}
@@ -150,7 +153,7 @@ func CommandFunc(cmd *cobra.Command, args []string) error {
 			if err != nil {
 				return err
 			}
-			ms, err := proto.Markdown(disclaimer, "", elem.options, languageOptions...)
+			ms, err := proto.Markdown("", elem.options, languageOptions...)
 			if err != nil {
 				return err
 			}
