@@ -27,8 +27,10 @@ func readLines(r io.Reader) ([]string, error) {
 		scanner = bufio.NewScanner(r)
 	)
 	for scanner.Scan() {
-		// remove indents
+		// remove indentation
 		line := strings.TrimSpace(scanner.Text())
+
+		// skip empty line
 		if len(line) > 0 {
 			if strings.HasPrefix(line, "//") {
 				lines = append(lines, line)
@@ -38,12 +40,15 @@ func readLines(r io.Reader) ([]string, error) {
 			// remove semi-colon line-separator
 			sl := strings.Split(line, ";")
 			for _, txt := range sl {
-				if len(txt) > 0 {
-					if strings.HasPrefix(txt, "optional ") { // proto2
-						txt = strings.Replace(txt, "optional ", "", 1)
-					}
-					lines = append(lines, txt)
+				txt = strings.TrimSpace(txt)
+				if len(txt) == 0 {
+					continue
 				}
+
+				if strings.HasPrefix(txt, "optional ") { // proto2
+					txt = strings.Replace(txt, "optional ", "", 1)
+				}
+				lines = append(lines, txt)
 			}
 		}
 	}
@@ -122,21 +127,47 @@ func ReadFile(fpath string) (*Proto, error) {
 	)
 
 	skippingEnum := false
+	skippingGatewayCnt := 0
 	for _, line := range lines {
 		if strings.HasPrefix(line, "//") {
 			ls := strings.Replace(line, "//", "", 1)
 			comments = append(comments, strings.TrimSpace(ls))
 			continue
 		}
+
+		// skippin enum
 		if strings.HasPrefix(line, "enum ") {
 			skippingEnum = true
 			continue
 		}
-		if skippingEnum {
-			if strings.HasSuffix(line, "}") { // end of enum
-				skippingEnum = false
-			}
+		if skippingEnum && strings.HasSuffix(line, "}") { // end of enum
+			skippingEnum = false
 			continue
+		}
+		if skippingEnum {
+			continue
+		}
+
+		// skip gengo/grpc-gateway
+		if strings.HasPrefix(line, "option (google.api.http) = ") {
+			skippingGatewayCnt++
+			continue
+		}
+		if strings.HasPrefix(line, "post: ") {
+			skippingGatewayCnt++
+			continue
+		}
+		if strings.HasPrefix(line, "body: ") {
+			skippingGatewayCnt++
+			continue
+		}
+		if skippingGatewayCnt == 3 && line == "}" {
+			skippingGatewayCnt++
+			continue
+		}
+		if skippingGatewayCnt == 4 {
+			skippingGatewayCnt = 0
+			continue // end of grpc-gateway
 		}
 
 		switch mode {
@@ -205,7 +236,8 @@ func ReadFile(fpath string) (*Proto, error) {
 			if strings.HasPrefix(line, "rpc ") {
 				lt := strings.Replace(line, "rpc ", "", 1)
 				lt = strings.Replace(lt, ")", "", -1)
-				lt = strings.Replace(lt, " {}", "", 1)
+				lt = strings.Replace(lt, " {}", "", 1) // without grpc gateway
+				lt = strings.Replace(lt, " {", "", 1)  // with grpc gateway
 				fsigs := strings.Split(lt, " returns ")
 
 				ft := strings.Split(fsigs[0], "(") // split 'Watch(stream WatchRequest'
@@ -224,7 +256,8 @@ func ReadFile(fpath string) (*Proto, error) {
 				protoMethod.Description = strings.Join(comments, " ")
 				protoService.Methods = append(protoService.Methods, protoMethod)
 				comments = []string{}
-			} else if !strings.HasSuffix(line, "{}") && strings.HasSuffix(line, "}") { // closing of service
+			} else if !strings.HasSuffix(line, "{}") && strings.HasSuffix(line, "}") {
+				// end of service
 				protoService.FilePath = fs
 				rp.Services = append(rp.Services, protoService)
 				protoService = ProtoService{}
