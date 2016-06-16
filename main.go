@@ -15,17 +15,18 @@
 // protodoc generates Protocol Buffer documentation.
 //
 //	Usage:
-//	  protodoc [flags]
+//	protodoc [flags]
 //
 //	Flags:
-//	      --directories value                    comma separated map of target directory to parse options (e.g. 'dirA=message,dirB=message_service')
-//	  -d, --directory string                     target directory where Protocol Buffer files are.
-//	  -h, --help                                 help for protodoc
-//	  -l, --languages value                      language options in field descriptions (Go, C++, Java, Python, Ruby, C#) (default [])
-//	      --message-only-from-this-file string   if specified, it parses only the messages in this file within the directory
-//	  -o, --output string                        output file path to save documentation
-//	  -p, --parse value                          Protocol Buffer types to parse (message, service) (default [service,message])
-//	  -t, --title string                         title of documentation
+//		--directories=: comma separated map of target directory to parse options (e.g. 'dirA=message,dirB=message_service')
+//	-d, --directory="": target directory where Protocol Buffer files are.
+//	-c, --disclaimer="": disclaimer statement
+//	-h, --help[=false]: help for protodoc
+//	-l, --languages=[]: language options in field descriptions (Go, C++, Java, Python, Ruby, C#)
+//		--message-only-from-this-file="": if specified, it parses only the messages in this file within the directory
+//	-o, --output="": output file path to save documentation
+//	-p, --parse=[service,message]: Protocol Buffer types to parse (message, service)
+//	-t, --title="": title of documentation
 //
 package main
 
@@ -52,6 +53,7 @@ var (
 	languageOptions []string
 	title           string
 	outputPath      string
+	disclaimer      string
 
 	targetDirectories       = newDirectoryOptions()
 	messageOnlyFromThisFile string
@@ -106,6 +108,7 @@ func init() {
 	rootCommand.PersistentFlags().StringSliceVarP(&languageOptions, "languages", "l", []string{}, "language options in field descriptions (Go, C++, Java, Python, Ruby, C#)")
 	rootCommand.PersistentFlags().StringVarP(&title, "title", "t", "", "title of documentation")
 	rootCommand.PersistentFlags().StringVarP(&outputPath, "output", "o", "", "output file path to save documentation")
+	rootCommand.PersistentFlags().StringVarP(&disclaimer, "disclaimer", "c", "", "disclaimer statement")
 
 	rootCommand.PersistentFlags().Var(&targetDirectories, "directories", "comma separated map of target directory to parse options (e.g. 'dirA=message,dirB=message_service')")
 	rootCommand.PersistentFlags().StringVar(&messageOnlyFromThisFile, "message-only-from-this-file", "", "if specified, it parses only the messages in this file within the directory")
@@ -129,7 +132,7 @@ func CommandFunc(cmd *cobra.Command, args []string) error {
 			}
 		}
 		log.Println("converting to markdown", title)
-		rs, err = proto.Markdown(title, opts, languageOptions...)
+		rs, err = proto.Markdown(disclaimer, title, opts, languageOptions...)
 		if err != nil {
 			return err
 		}
@@ -147,7 +150,7 @@ func CommandFunc(cmd *cobra.Command, args []string) error {
 			if err != nil {
 				return err
 			}
-			ms, err := proto.Markdown("", elem.options, languageOptions...)
+			ms, err := proto.Markdown(disclaimer, "", elem.options, languageOptions...)
 			if err != nil {
 				return err
 			}

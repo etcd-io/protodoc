@@ -29,10 +29,13 @@ const (
 
 // Markdown saves 'Proto' to markdown documentation.
 // lopts are a slice of language options (C++, Java, Python, Go, Ruby, C#).
-func (p *Proto) Markdown(title string, parseOpts []ParseOption, lopts ...string) (string, error) {
+func (p *Proto) Markdown(disclaimer, title string, parseOpts []ParseOption, lopts ...string) (string, error) {
 	p.Sort()
 
 	buf := new(bytes.Buffer)
+	if len(disclaimer) > 0 {
+		buf.WriteString(fmt.Sprintf("%s\n\n\n", disclaimer))
+	}
 	if len(title) > 0 {
 		buf.WriteString(fmt.Sprintf("### %s\n\n\n", title))
 	}
