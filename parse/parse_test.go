@@ -22,24 +22,4 @@ func TestReadDir(t *testing.T) {
 		t.Fatal(err)
 	}
 	proto.Sort()
-
-	// if proto.Messages[51].Name != "MemberAddResponse" {
-	// 	t.Fatalf("expected 'MemberAddResponse', got %+v", proto.Messages[51])
-	// }
-
-	// if proto.Messages[75].Name != "WatchCreateRequest" {
-	// 	t.Fatalf("expected 'WatchCreateRequest', got %+v", proto.Messages[75])
-	// }
-	// if len(proto.Services[3].Methods) != 1 {
-	// 	t.Fatalf("expected 3 methods, got %d(%+v)", len(proto.Services[3].Methods), proto.Services[3].Methods)
-	// }
-	// if proto.Services[3].Methods[0].Name != "LeaseGrant" {
-	// 	t.Fatalf("expected 'LeaseGrant', got %+v", proto.Services[3].Methods[0])
-	// }
-	// if proto.Services[3].Methods[1].Name != "LeaseRevoke" {
-	// 	t.Fatalf("expected 'LeaseRevoke', got %+v", proto.Services[3].Methods[1])
-	// }
-	// if proto.Services[3].Methods[2].Name != "LeaseKeepAlive" {
-	// 	t.Fatalf("expected 'LeaseKeepAlive', got %+v", proto.Services[3].Methods[2])
-	// }
 }
