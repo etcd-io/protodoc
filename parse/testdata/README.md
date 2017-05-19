@@ -1,6 +1,3 @@
-this is test...
-
-
 ### etcdserverpb
 
 
@@ -37,8 +34,6 @@ this is test...
 
 
 ##### service `KV` (testdata/rpc.proto)
-
-for grpc-gateway
 
 | Method | Request Type | Response Type | Description |
 | ------ | ------------ | ------------- | ----------- |
@@ -90,8 +85,6 @@ for grpc-gateway
 
 
 ##### message `AlarmRequest` (testdata/rpc.proto)
-
-default, used to query if any alarm is active space quota is exhausted
 
 | Field | Description | Type | Go | Java | Python | C++ |
 | ----- | ----------- | ---- | --- | ---- | ------ | --- |
@@ -635,7 +628,7 @@ Empty field.
 
 | Field | Description | Type | Go | Java | Python | C++ |
 | ----- | ----------- | ---- | --- | ---- | ------ | --- |
-| key | default, no sorting lowest target value first highest target value first key is the first key for the range. If range_end is not given, the request only looks up key. | bytes | []byte | ByteString | str | string |
+| key | key is the first key for the range. If range_end is not given, the request only looks up key. | bytes | []byte | ByteString | str | string |
 | range_end | range_end is the upper bound on the requested range [key, range_end). If range_end is '\0', the range is all keys >= key. If the range_end is one bit larger than the given key, then the range requests get the all keys with the prefix (the given key). If both key and range_end are '\0', then range requests returns all keys. | bytes | []byte | ByteString | str | string |
 | limit | limit is a limit on the number of keys returned for the request. | int64 | int64 | long | int/long | int64 |
 | revision | revision is the point-in-time of the key-value store to use for the range. If revision is less or equal to zero, the range is over the newest key-value store. If the revision has been compacted, ErrCompacted is returned as a response. | int64 | int64 | long | int/long | int64 |
