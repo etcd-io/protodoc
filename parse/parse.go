@@ -134,6 +134,8 @@ func ReadFile(fpath string) (*Proto, error) {
 			comments = append(comments, strings.TrimSpace(ls))
 			continue
 		}
+		emitComments := comments
+		comments = []string{}
 
 		// skippin enum
 		if strings.HasPrefix(line, "enum ") {
@@ -187,14 +189,12 @@ func ReadFile(fpath string) (*Proto, error) {
 					switch mode {
 					case parsingMessage: // message Name
 						protoMessage.Name = strings.Replace(elem, "{", "", -1)
-						protoMessage.Description = strings.Join(comments, " ")
-						comments = []string{}                // reset
+						protoMessage.Description = strings.Join(emitComments, " ")
 						protoMessage.Fields = []ProtoField{} // reset
 
 					case parsingService: // service Name
 						protoService.Name = strings.Replace(elem, "{", "", -1)
-						protoService.Description = strings.Join(comments, " ")
-						comments = []string{}                  // reset
+						protoService.Description = strings.Join(emitComments, " ")
 						protoService.Methods = []ProtoMethod{} // reset
 					}
 				}
@@ -205,7 +205,6 @@ func ReadFile(fpath string) (*Proto, error) {
 				protoMessage.FilePath = fs
 				rp.Messages = append(rp.Messages, protoMessage)
 				protoMessage = ProtoMessage{}
-				comments = []string{}
 				mode = reading
 				continue
 			}
@@ -227,9 +226,8 @@ func ReadFile(fpath string) (*Proto, error) {
 			}
 
 			protoField.Name = fds[1]
-			protoField.Description = strings.Join(comments, " ")
+			protoField.Description = strings.Join(emitComments, " ")
 			protoMessage.Fields = append(protoMessage.Fields, protoField)
-			comments = []string{}
 
 		case parsingService:
 			// parse 'rpc Watch(stream WatchRequest) returns (stream WatchResponse) {}'
@@ -253,15 +251,13 @@ func ReadFile(fpath string) (*Proto, error) {
 				protoMethod.Name = f1
 				protoMethod.RequestType = f2
 				protoMethod.ResponseType = f3
-				protoMethod.Description = strings.Join(comments, " ")
+				protoMethod.Description = strings.Join(emitComments, " ")
 				protoService.Methods = append(protoService.Methods, protoMethod)
-				comments = []string{}
 			} else if !strings.HasSuffix(line, "{}") && strings.HasSuffix(line, "}") {
 				// end of service
 				protoService.FilePath = fs
 				rp.Services = append(rp.Services, protoService)
 				protoService = ProtoService{}
-				comments = []string{}
 				mode = reading
 			}
 		}
