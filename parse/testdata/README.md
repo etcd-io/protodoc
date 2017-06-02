@@ -365,6 +365,7 @@ CompactionRequest compacts the key-value store up to a given revision. All super
 | create_revision | create_revision is the creation revision of the given key | int64 | int64 | long | int/long | int64 |
 | mod_revision | mod_revision is the last modified revision of the given key. | int64 | int64 | long | int/long | int64 |
 | value | value is the value of the given key, in bytes. | bytes | []byte | ByteString | str | string |
+| range_end | range_end is the range end. | bytes | []byte | ByteString | str | string |
 
 
 

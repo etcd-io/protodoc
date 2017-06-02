@@ -433,6 +433,8 @@ message Compare {
     // value is the value of the given key, in bytes.
     bytes value = 7;
   }
+  // range_end is the range end.
+  bytes range_end = 8;
 }
 
 // From google paxosdb paper:
