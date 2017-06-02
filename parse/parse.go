@@ -126,8 +126,8 @@ func ReadFile(fpath string) (*Proto, error) {
 		protoService = ProtoService{}
 	)
 
-	skippingEnum := false
-	skippingGatewayCnt := 0
+	skipping := 0
+	braceDepth := 0
 	for _, line := range lines {
 		if strings.HasPrefix(line, "//") {
 			ls := strings.Replace(line, "//", "", 1)
@@ -137,76 +137,57 @@ func ReadFile(fpath string) (*Proto, error) {
 		emitComments := comments
 		comments = []string{}
 
-		// skippin enum
-		if strings.HasPrefix(line, "enum ") {
-			skippingEnum = true
-			continue
+		if strings.Contains(line, "}") {
+			braceDepth--
 		}
-		if skippingEnum && strings.HasSuffix(line, "}") { // end of enum
-			skippingEnum = false
-			continue
+		if strings.Contains(line, "{") {
+			braceDepth++
 		}
-		if skippingEnum {
+		line = strings.TrimSpace(line)
+		switch {
+		case skipping > 0 && braceDepth > skipping:
 			continue
-		}
-
-		// skip gengo/grpc-gateway
-		if strings.HasPrefix(line, "option (google.api.http) = ") {
-			skippingGatewayCnt++
+		case strings.HasPrefix(line, "enum "):
+			fallthrough
+		case strings.HasPrefix(line, "option (google.api.http) = "):
+			skipping = braceDepth - 1
 			continue
-		}
-		if strings.HasPrefix(line, "post: ") {
-			skippingGatewayCnt++
-			continue
-		}
-		if strings.HasPrefix(line, "body: ") {
-			skippingGatewayCnt++
-			continue
-		}
-		if skippingGatewayCnt == 3 && line == "}" {
-			skippingGatewayCnt++
-			continue
-		}
-		if skippingGatewayCnt == 4 {
-			skippingGatewayCnt = 0
-			continue // end of grpc-gateway
+		default:
+			skipping = 0
 		}
 
 		switch mode {
 		case reading:
-			for j, elem := range strings.Fields(line) {
-				switch j {
-				case 0:
-					switch elem {
-					case "message":
-						mode = parsingMessage
-
-					case "service":
-						mode = parsingService
-					}
-
-				case 1: // proto message/service name
-					switch mode {
-					case parsingMessage: // message Name
-						protoMessage.Name = strings.Replace(elem, "{", "", -1)
-						protoMessage.Description = strings.Join(emitComments, " ")
-						protoMessage.Fields = []ProtoField{} // reset
-
-					case parsingService: // service Name
-						protoService.Name = strings.Replace(elem, "{", "", -1)
-						protoService.Description = strings.Join(emitComments, " ")
-						protoService.Methods = []ProtoMethod{} // reset
-					}
-				}
+			fs := strings.Fields(line)
+			if len(fs) < 2 {
+				break
 			}
-
+			switch fs[0] {
+			case "message":
+				mode = parsingMessage
+			case "service":
+				mode = parsingService
+			}
+			switch fs[0] {
+			// proto message/service name
+			case "message":
+				mode = parsingMessage
+				protoMessage.Name = strings.Replace(fs[1], "{", "", -1)
+				protoMessage.Description = strings.Join(emitComments, " ")
+				protoMessage.Fields = []ProtoField{} // reset
+			case "service":
+				mode = parsingService
+				protoService.Name = strings.Replace(fs[1], "{", "", -1)
+				protoService.Description = strings.Join(emitComments, " ")
+				protoService.Methods = []ProtoMethod{} // reset
+			}
 		case parsingMessage:
-			if strings.HasSuffix(line, "}") { // closing of message
+			if braceDepth == 0 { // closing of message
 				protoMessage.FilePath = fs
 				rp.Messages = append(rp.Messages, protoMessage)
 				protoMessage = ProtoMessage{}
 				mode = reading
-				continue
+				break
 			}
 
 			protoField := ProtoField{}
@@ -216,6 +197,9 @@ func ReadFile(fpath string) (*Proto, error) {
 				tl = strings.Replace(tl, "repeated ", "", -1)
 			}
 			fds := strings.Fields(tl)
+			if len(fds) < 2 {
+				break
+			}
 			tp, err := ToProtoType(fds[0])
 			if err != nil {
 				protoField.ProtoType = 0
@@ -253,7 +237,7 @@ func ReadFile(fpath string) (*Proto, error) {
 				protoMethod.ResponseType = f3
 				protoMethod.Description = strings.Join(emitComments, " ")
 				protoService.Methods = append(protoService.Methods, protoMethod)
-			} else if !strings.HasSuffix(line, "{}") && strings.HasSuffix(line, "}") {
+			} else if !strings.HasSuffix(line, "{}") && braceDepth == 0 {
 				// end of service
 				protoService.FilePath = fs
 				rp.Services = append(rp.Services, protoService)
