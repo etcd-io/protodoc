@@ -26,5 +26,5 @@ of Protocol Buffer (just enough to generate documentation).
 
 For full featured parser, please check out https://github.com/golang/protobuf.
 
-[cistat]: https://travis-ci.org/etcd-io/protodoc
+[cistat]: https://travis-ci.com/etcd-io/protodoc
 [protodoc-godoc]: https://godoc.org/github.com/etcd-io/protodoc
