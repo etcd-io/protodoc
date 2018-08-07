@@ -37,7 +37,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/coreos/protodoc/parse"
+	"github.com/etcd-io/protodoc/parse"
+
 	"github.com/spf13/cobra"
 )
 
