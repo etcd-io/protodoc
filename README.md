@@ -6,7 +6,7 @@
 protodoc generates Protocol Buffer documentation.
 
 ```
-go get -v -u github.com/etcd-io/protodoc
+go get -v -u go.etcd.io/protodoc
 
 protodoc --directory=./parse/testdata \
 	--parse="service,message" \
@@ -27,4 +27,4 @@ of Protocol Buffer (just enough to generate documentation).
 For full featured parser, please check out https://github.com/golang/protobuf.
 
 [cistat]: https://travis-ci.com/etcd-io/protodoc
-[protodoc-godoc]: https://godoc.org/github.com/etcd-io/protodoc
+[protodoc-godoc]: https://godoc.org/go.etcd.io/protodoc

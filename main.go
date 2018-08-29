@@ -37,7 +37,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/etcd-io/protodoc/parse"
+	"go.etcd.io/protodoc/parse"
 
 	"github.com/spf13/cobra"
 )
