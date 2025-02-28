@@ -1,25 +1,23 @@
 #!/usr/bin/env bash
 
-TEST=./...;
 FMT="*.go"
 
-echo "Running tests...";
-go test -v -cover -cpu 1,2,4 $TEST;
-go test -v -cover -cpu 1,2,4 -race $TEST;
+echo "Running tests..."
+go test -v -cover -cpu 1,2,4 ./...
+go test -v -cover -cpu 1,2,4 -race ./...
 
 echo "Checking gofmt..."
-fmtRes=$(gofmt -l -s $FMT)
-if [ -n "${fmtRes}" ]; then
-	echo -e "gofmt checking failed:\n${fmtRes}"
-	exit 255
+fmt_res=$(gofmt -l -s $FMT)
+if [ -n "${fmt_res}" ]; then
+  echo -e "gofmt checking failed:\n${fmt_res}"
+  exit 1
 fi
 
 echo "Checking govet..."
-vetRes=$(go vet $TEST)
-if [ -n "${vetRes}" ]; then
-	echo -e "govet checking failed:\n${vetRes}"
-	exit 255
+vet_res=$(go vet ./...)
+if [ -n "${vet_res}" ]; then
+  echo -e "govet checking failed:\n${vet_res}"
+  exit 1
 fi
 
-echo "Success";
-
+echo "Success"
