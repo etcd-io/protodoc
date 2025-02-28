@@ -27,7 +27,6 @@
 //	-o, --output="": output file path to save documentation
 //	-p, --parse=[service,message]: Protocol Buffer types to parse (message, service)
 //	-t, --title="": title of documentation
-//
 package main
 
 import (
