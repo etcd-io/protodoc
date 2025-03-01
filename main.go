@@ -117,7 +117,7 @@ func init() {
 func CommandFunc(cmd *cobra.Command, args []string) error {
 	var rs string
 	if len(disclaimer) > 0 {
-		rs += disclaimer + "\n\n\n"
+		rs += strings.TrimSpace(disclaimer) + "\n\n"
 	}
 	if len(targetDirectories) == 0 {
 		log.Println("opening", targetDirectory)

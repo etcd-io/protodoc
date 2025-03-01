@@ -60,7 +60,7 @@ func (p *Proto) Markdown(title string, parseOpts []ParseOption, lopts ...string)
 					buf.WriteString("Empty method.\n")
 				}
 
-				buf.WriteString("\n\n\n")
+				buf.WriteString("\n")
 			}
 
 		case ParseMessage:
@@ -125,7 +125,7 @@ func (p *Proto) Markdown(title string, parseOpts []ParseOption, lopts ...string)
 					buf.WriteString("Empty field.\n")
 				}
 
-				buf.WriteString("\n\n\n")
+				buf.WriteString("\n")
 			}
 		}
 	}
