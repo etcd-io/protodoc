@@ -2,7 +2,7 @@ module go.etcd.io/protodoc
 
 go 1.23
 
-toolchain go1.23.10
+toolchain go1.23.11
 
 require github.com/spf13/cobra v1.9.1
 
